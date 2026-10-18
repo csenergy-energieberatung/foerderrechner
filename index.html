@@ -43,12 +43,13 @@ legend{font-family:var(--f-display);font-weight:700;font-size:17px;padding:0 6px
 .m-head{display:flex;align-items:flex-start;gap:12px}
 .m-head input[type=checkbox]{margin-top:4px}
 .m-head label{font-family:var(--f-display);font-weight:700;font-size:17px;cursor:pointer}
+.field .hint{font-size:13px;color:var(--ink-soft)}
 .m-head .hint{display:block;font-family:var(--f-body);font-weight:400;font-size:14px;color:var(--ink-soft)}
 .m-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
 .m-body[hidden]{display:none!important}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field>label,.lab{font-size:13px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-soft)}
-input[type=number],select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%;min-width:0}
+input[type=number],input[type=text],select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%;min-width:0}
 input[type=number]{font-family:var(--f-num);font-variant-numeric:tabular-nums}
 input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;height:18px}
@@ -124,26 +125,9 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
             <input type="number" id="we" min="1" max="200" step="1" value="1" inputmode="numeric">
           </div>
           <div class="field">
-            <label for="reg">Wo steht das Haus?</label>
-            <select id="reg">
-              <option value="de" selected>Andere Region (nur Bundesförderung)</option>
-              <optgroup label="Hamburg">
-                <option value="hh">Hamburg</option>
-              </optgroup>
-              <optgroup label="Niedersachsen">
-                <option value="hannover">Hannover, Laatzen, Langenhagen, Seelze, Hemmingen, Ronnenberg</option>
-                <option value="oldenburg">Oldenburg (Stadt)</option>
-                <option value="zwischenahn">Bad Zwischenahn</option>
-                <option value="ni">Übriges Niedersachsen (z. B. Wunstorf, Garbsen, Neustadt)</option>
-              </optgroup>
-              <optgroup label="Nordrhein-Westfalen">
-                <option value="bielefeld">Bielefeld</option>
-                <option value="nrw">Übriges NRW</option>
-              </optgroup>
-              <optgroup label="Bremen">
-                <option value="hb">Bremen und Bremerhaven</option>
-              </optgroup>
-            </select>
+            <label for="adr">Adresse des Hauses</label>
+            <input type="text" id="adr" placeholder="z. B. Musterstraße 1, 30159 Hannover" autocomplete="street-address">
+            <span class="hint">Die Postleitzahl genügt. Damit prüfe ich zusätzlich Landes- und Kommunalprogramme. Ihre Eingabe bleibt in Ihrem Browser.</span>
           </div>
           <div class="field">
             <span class="lab">Wohnen Sie selbst im Haus?</span>
@@ -283,7 +267,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
     <p><strong>So rechnet der Rechner.</strong> Heizung (KfW): 30 % Grundförderung, Klimageschwindigkeitsbonus für Selbstnutzer beim Austausch einer fossilen Heizung (16 % bis 31.01.2027, danach sinkend), Einkommensbonus bis 40 %, höchstens 70 % (80 % bei niedrigem Einkommen). Förderfähig sind bis 28.000 € für die erste Wohnung, 15.000 € für die 2. bis 6. und 8.000 € ab der 7. Wohnung; die Boni gelten für die selbst bewohnte Wohnung. Dämmung, Fenster, Anlagentechnik und Heizungsoptimierung (BAFA): 15 %, förderfähig 30.000 € je Jahr für die erste Wohnung (mit iSFP 60.000 €), mit iSFP 5 % zusätzlich auf den Anteil über 30.000 €. Fachplanung und Baubegleitung: 50 %, angesetzt bis 5.000 € Honorar für Ein- und Zweifamilienhäuser und 2.000 € je Wohnung (höchstens 20.000 €) bei größeren Häusern.</p>
     <p>Ab 2027 ändern sich die Sätze für Wärmepumpen (15 % Grundförderung plus 15 % Bonus für Geräte aus EU-Fertigung), die Höchstbeträge sinken halbjährlich. Alle Werte sind eine unverbindliche Schätzung nach der BEG-Richtlinie ab 21.07.2026. Ob und in welcher Höhe gefördert wird, entscheiden allein BAFA und KfW. Steuerliche Förderung nach § 35c EStG ist eine Alternative und hier nicht eingerechnet.</p>
     <p><strong>Landes- und Kommunalprogramme</strong> (Hamburg, Niedersachsen, NRW, Bremen, Stand 18.10.2026) zeigt der Rechner getrennt an. Die Richtwerte sind nicht in der Summe enthalten, weil diese Mittel mit der Bundesförderung verrechnet werden und Budgets begrenzt sind.</p>
-    <p>CS Energy · M. Eng. Shahin Aslankilic · Energieeffizienz-Experte für Förderprogramme des Bundes · bundesweit im Einsatz · Niederlassung in Wunstorf bei Hannover · Schwerpunkte Hannover, Bremen, Oldenburg, Bad Zwischenahn und Bielefeld</p>
+    <p>CS Energy · M. Eng. Shahin Aslankilic · Energieeffizienz-Experte für Förderprogramme des Bundes · bundesweit im Einsatz · Hauptsitz in Wunstorf bei Hannover · Zweigstellen in Oldenburg und Bad Zwischenahn · Schwerpunkte Hannover, Bremen und Bielefeld</p>
     <p><a href="https://csenergy-energieberatung.de/">Zur Website</a> · <a href="https://csenergy-energieberatung.de/impressum/">Impressum</a> · <a href="https://csenergy-energieberatung.de/datenschutz/">Datenschutz</a></p>
   </div>
 </div>
@@ -350,8 +334,31 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
     ]}
   };
 
+  // Region im Hintergrund aus PLZ (oder Ortsname) ableiten
+  function inR(z, ranges){ for (var i=0;i<ranges.length;i++){ if (z>=ranges[i][0] && z<=ranges[i][1]) return true; } return false; }
+  function regionOf(txt){
+    txt = (txt||'').toLowerCase();
+    var m = txt.match(/(^|\D)(\d{5})(?!\d)/);
+    if (m){
+      var z = parseInt(m[2],10);
+      if (inR(z,[[20095,21149],[22041,22769]])) return 'hh';
+      if (inR(z,[[28195,28779],[27568,27580]])) return 'hb';
+      if (inR(z,[[30159,30669],[30851,30855],[30880,30880],[30926,30926],[30952,30952],[30966,30966]])) return 'hannover';
+      if (inR(z,[[26121,26135]])) return 'oldenburg';
+      if (z === 26160) return 'zwischenahn';
+      if (inR(z,[[33602,33739]])) return 'bielefeld';
+      if (inR(z,[[32000,33999],[40000,47999],[48000,48449],[48600,48739],[50000,52999],[53000,53359],[57000,57399],[58000,59999]])) return 'nrw';
+      if (inR(z,[[26000,27999],[28000,31999],[21200,21449],[21600,21789],[37000,37199],[37400,37699],[38000,38559],[49000,49459],[49500,49849]])) return 'ni';
+      return 'de';
+    }
+    var names = [['bremerhaven','hb'],['bremen','hb'],['hamburg','hh'],['bad zwischenahn','zwischenahn'],['oldenburg','oldenburg'],['bielefeld','bielefeld'],
+      ['hannover','hannover'],['laatzen','hannover'],['langenhagen','hannover'],['seelze','hannover'],['hemmingen','hannover'],['ronnenberg','hannover'],['wunstorf','ni']];
+    for (var i=0;i<names.length;i++){ if (txt.indexOf(names[i][0]) > -1) return names[i][1]; }
+    return 'de';
+  }
+
   function renderRegio(c){
-    var box = $('regio'), r = REG[$('reg').value];
+    var box = $('regio'), r = REG[regionOf($('adr').value)];
     box.innerHTML = '';
     if (!r){ box.hidden = true; return; }
     var list = document.createElement('ul'), sum = 0, shown = 0;
