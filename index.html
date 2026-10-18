@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Förderrechner | CS Energy Energieberatung</title>
-<meta name="description" content="Förderrechner für Heizung, Dämmung und Fenster: Schätzen Sie Ihren Zuschuss nach BAFA und KfW in zwei Minuten. CS Energy, Energieberatung für Norddeutschland.">
+<meta name="description" content="Förderrechner für Heizung, Dämmung und Fenster: Schätzen Sie Ihren Zuschuss nach BAFA und KfW in zwei Minuten. Mit Landes- und Kommunalprogrammen für Hamburg, Niedersachsen, NRW und Bremen. CS Energy, Energieberatung bundesweit.">
 <style>
 /* Layout: Rechner links (Eingaben in Karten je Maßnahme), Ergebnis rechts als ruhige, mitlaufende Spalte; am Handy Ergebnis unten */
 :root{
@@ -71,6 +71,19 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
 .row .name{font-weight:600}
 .row .amt{font-family:var(--f-num);font-variant-numeric:tabular-nums;font-weight:500;text-align:right}
 .row .meta{grid-column:1/-1;font-size:13px;color:var(--ink-soft)}
+.regio{border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.regio h3{font-size:17px}
+.regio .rsum{font-size:15px;color:var(--ink-soft);margin:0}
+.regio .rsum strong{color:var(--ink);font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.regio ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.regio li{border-top:1px solid var(--line);padding-top:12px}
+.regio li:first-child{border-top:0;padding-top:0}
+.regio .pn{font-weight:600;display:flex;justify-content:space-between;gap:10px}
+.regio .pn span:last-child{font-family:var(--f-num);font-variant-numeric:tabular-nums;font-weight:500;white-space:nowrap}
+.regio .pt{font-size:14px;color:var(--ink-soft);margin:4px 0 0}
+.regio .tag{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.03em;border-radius:999px;padding:2px 8px;margin-top:6px;background:var(--surface);color:var(--ink-soft)}
+.regio .tag.off{background:var(--warn-bg);color:var(--warn)}
+.regio a{color:var(--accent)}
 .empty{padding:14px;color:var(--ink-soft);font-size:15px}
 .cta{border:1px solid var(--line);border-radius:12px;padding:18px;background:var(--surface);display:flex;flex-direction:column;gap:10px}
 .cta h3{font-size:19px}
@@ -109,6 +122,28 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
           <div class="field">
             <label for="we">Anzahl Wohnungen</label>
             <input type="number" id="we" min="1" max="200" step="1" value="1" inputmode="numeric">
+          </div>
+          <div class="field">
+            <label for="reg">Wo steht das Haus?</label>
+            <select id="reg">
+              <option value="de" selected>Andere Region (nur Bundesförderung)</option>
+              <optgroup label="Hamburg">
+                <option value="hh">Hamburg</option>
+              </optgroup>
+              <optgroup label="Niedersachsen">
+                <option value="hannover">Hannover, Laatzen, Langenhagen, Seelze, Hemmingen, Ronnenberg</option>
+                <option value="oldenburg">Oldenburg (Stadt)</option>
+                <option value="zwischenahn">Bad Zwischenahn</option>
+                <option value="ni">Übriges Niedersachsen (z. B. Wunstorf, Garbsen, Neustadt)</option>
+              </optgroup>
+              <optgroup label="Nordrhein-Westfalen">
+                <option value="bielefeld">Bielefeld</option>
+                <option value="nrw">Übriges NRW</option>
+              </optgroup>
+              <optgroup label="Bremen">
+                <option value="hb">Bremen und Bremerhaven</option>
+              </optgroup>
+            </select>
           </div>
           <div class="field">
             <span class="lab">Wohnen Sie selbst im Haus?</span>
@@ -230,6 +265,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
         <div class="sub" id="sub">bei 0 € geplanten Kosten</div>
       </div>
       <div class="rows" id="rows"></div>
+      <div class="regio" id="regio" hidden></div>
       <div class="cta">
         <h3>Förderung sichern: rufen Sie mich an</h3>
         <p>Ich prüfe Ihr Vorhaben, stelle die nötigen Bestätigungen aus und sorge dafür, dass der Antrag rechtzeitig vor dem Auftrag gestellt wird.</p>
@@ -246,7 +282,8 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
   <div class="foot">
     <p><strong>So rechnet der Rechner.</strong> Heizung (KfW): 30 % Grundförderung, Klimageschwindigkeitsbonus für Selbstnutzer beim Austausch einer fossilen Heizung (16 % bis 31.01.2027, danach sinkend), Einkommensbonus bis 40 %, höchstens 70 % (80 % bei niedrigem Einkommen). Förderfähig sind bis 28.000 € für die erste Wohnung, 15.000 € für die 2. bis 6. und 8.000 € ab der 7. Wohnung; die Boni gelten für die selbst bewohnte Wohnung. Dämmung, Fenster, Anlagentechnik und Heizungsoptimierung (BAFA): 15 %, förderfähig 30.000 € je Jahr für die erste Wohnung (mit iSFP 60.000 €), mit iSFP 5 % zusätzlich auf den Anteil über 30.000 €. Fachplanung und Baubegleitung: 50 %, angesetzt bis 5.000 € Honorar für Ein- und Zweifamilienhäuser und 2.000 € je Wohnung (höchstens 20.000 €) bei größeren Häusern.</p>
     <p>Ab 2027 ändern sich die Sätze für Wärmepumpen (15 % Grundförderung plus 15 % Bonus für Geräte aus EU-Fertigung), die Höchstbeträge sinken halbjährlich. Alle Werte sind eine unverbindliche Schätzung nach der BEG-Richtlinie ab 21.07.2026. Ob und in welcher Höhe gefördert wird, entscheiden allein BAFA und KfW. Steuerliche Förderung nach § 35c EStG ist eine Alternative und hier nicht eingerechnet.</p>
-    <p>CS Energy · M. Eng. Shahin Aslankilic · Energieeffizienz-Experte für Förderprogramme des Bundes · Wunstorf, Hannover, Bremen, Oldenburg und Bad Zwischenahn</p>
+    <p><strong>Landes- und Kommunalprogramme</strong> (Hamburg, Niedersachsen, NRW, Bremen, Stand 18.10.2026) zeigt der Rechner getrennt an. Die Richtwerte sind nicht in der Summe enthalten, weil diese Mittel mit der Bundesförderung verrechnet werden und Budgets begrenzt sind.</p>
+    <p>CS Energy · M. Eng. Shahin Aslankilic · Energieeffizienz-Experte für Förderprogramme des Bundes · bundesweit im Einsatz · Niederlassung in Wunstorf bei Hannover · Schwerpunkte Hannover, Bremen, Oldenburg, Bad Zwischenahn und Bielefeld</p>
     <p><a href="https://csenergy-energieberatung.de/">Zur Website</a> · <a href="https://csenergy-energieberatung.de/impressum/">Impressum</a> · <a href="https://csenergy-energieberatung.de/datenschutz/">Datenschutz</a></p>
   </div>
 </div>
@@ -273,10 +310,81 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
     return first + mid * Math.min(Math.max(n-1,0),5) + rest * Math.max(n-6,0);
   }
 
+
+  // Landes- und Kommunalprogramme (Stand 18.10.2026). Beträge sind Richtwerte und werden NICHT zur Bundesförderung addiert.
+  // c = Kontext: heiz (Heizkosten), huelle, anlage, kgb, eb, self, n, today
+  var REG = {
+    hh: {name:'Hamburg', items:[
+      {t:'IFB Hamburg: Wärmeschutz im Gebäudebestand', if:'huelle', d:'Zuschuss je m² zusätzlich zur BAFA-Förderung, z. B. Fassade 43,40 €/m², Steildach 44,80 €/m², oberste Geschossdecke 26,10 €/m², Fenster 168 €/m², plus 18,50 €/m² für nachhaltige Dämmstoffe. Bei EFH/ZFH bis 50 % Modernisierungsbonus, höchstens 50.000 € je Wohnung. Für Häuser mit Baugenehmigung vor über 20 Jahren.', tag:'Antrag vor Auftrag · Richtlinie ab 01.08.2026', url:'https://www.ifbhh.de/'},
+      {t:'IFB Hamburg: Heizungsförderung Erneuerbare Wärme', if:'heiz', calc:function(c){ if (c.kgb || c.eb) return null; return Math.max(1000, Math.min(c.heiz*0.20, 9000*c.n)); }, d:'20 % der Kosten für die Wärmepumpe, mindestens 1.000 €, höchstens 9.000 € je Wohnung. Nach der Richtlinie entfällt der Hamburger Zuschuss, wenn bei der KfW Klimageschwindigkeits- oder Einkommensbonus beantragt werden. Das rechne ich für Sie gegeneinander.', dno:'Bei Ihren Angaben erhalten Sie bei der KfW Klimageschwindigkeits- oder Einkommensbonus. Dann entfällt der Hamburger Heizungszuschuss nach der Richtlinie. Was sich mehr lohnt, prüfe ich im Einzelfall.', tag:'Antrag vor Auftrag', url:'https://www.ifbhh.de/'},
+      {t:'IFB-Energiedarlehen', d:'Zinsgünstiges Darlehen von 10.000 bis 75.000 € für selbst genutzte Wohnimmobilien, mit BEG-Zuschüssen kombinierbar.', tag:'Kredit'}
+    ]},
+    hannover: {name:'proKlima-Gebiet Hannover', items:[
+      {t:'proKlima: Wärmepumpe', if:'heiz', until:'2026-10-31', calc:function(c){ return Math.min(c.heiz*0.05, 1500); }, d:'Zusätzlich 5 % auf eine Luft-Wasser-Wärmepumpe, höchstens 1.500 € (Erdwärme höchstens 2.500 €). Boni z. B. 2.000 € für die Wärmequelle Erdreich. Nur mit Ökostrom und natürlichem Kältemittel.', tag:'Anträge 2026 nur bis 31.10.2026', off:true, url:'https://www.proklima-hannover.de/'},
+      {t:'proKlima: Dämmung und Fenster', if:'huelle', until:'2026-10-31', d:'z. B. Außenwand 30 €/m² (höchstens 30.000 €), Dach 10 €/m², Passivhausfenster 30 €/m². Nur mit natureplus- oder IBR-zertifizierten Dämmstoffen; Mineralwolle, EPS und oberste Geschossdecke werden nicht gefördert. Mit Wärmepumpe im selben Jahr zusätzlich 15 €/m², höchstens 6.000 €.', tag:'Anträge 2026 nur bis 31.10.2026', off:true, url:'https://www.proklima-hannover.de/'},
+      {t:'proKlima 2027', from:'2026-11-01', d:'Das Förderprogramm für 2027 ist noch nicht veröffentlicht. Ich informiere Sie, sobald es startet.', tag:'Programm 2027 offen'}
+    ]},
+    oldenburg: {name:'Oldenburg', items:[
+      {t:'Stadt Oldenburg: Klimaschutz im Altbau', d:'Bisher 10 % auf Dämmung und Luft-Wasser-Wärmepumpe (Erdwärme 15 %), Boni für mehrere Maßnahmen, höchstens 7.500 € je Jahr, Einkommensgrenze 120.000 €. Ob 2026 noch Mittel vorhanden sind, kläre ich vor Ihrem Antrag mit der Stadt.', tag:'Mittel 2026 bitte erfragen'},
+      {t:'Stadt Oldenburg: Gebäude-Check', d:'Gefördertes Erstberatungsangebot der Stadt mit 70 € Eigenanteil. Gilt nicht, wenn bereits ein iSFP erstellt oder beantragt ist.', tag:'Beratung'}
+    ]},
+    zwischenahn: {name:'Bad Zwischenahn', items:[
+      {t:'Bad Zwischenahner Klimazuschuss 2026', if:'heiz', calc:function(c){ return 1000; }, d:'Pauschal 1.000 € für eine Luft-Wärmepumpe; außerdem Zuschüsse für Dämmung, Solarthermie und Energieberatung, zusammen höchstens 2.500 € je Antragsteller. Begrenztes Budget, solange Mittel reichen. Bewilligung vor Auftragsvergabe.', tag:'Solange Mittel reichen', url:'https://www.bad-zwischenahn.de/'}
+    ]},
+    ni: {name:'Niedersachsen', items:[
+      {t:'Kein Landeszuschuss für private Sanierung', d:'Das Land Niedersachsen fördert private Sanierungen 2026 nicht mit eigenen Zuschüssen. Für Familien mit kleinerem Einkommen gibt es über die NBank zinsgünstige Darlehen für selbst genutztes Wohneigentum. Die Bundesförderung bleibt der wichtigste Baustein.', tag:'Nur Bundesförderung'}
+    ]},
+    bielefeld: {name:'Bielefeld', items:[
+      {t:'Stadt Bielefeld: Energetische Sanierung', d:'Das städtische Programm (z. B. 20 €/m² Dach, 150 € je Fenster) ist wegen einer Haushaltssperre derzeit ausgesetzt; Neuanträge sind nicht möglich. Ich behalte den Neustart im Blick.', tag:'Derzeit ausgesetzt', off:true},
+      {t:'progres.nrw: Lüftung mit Wärmerückgewinnung', if:'anlage', d:'Landeszuschuss für Bestandsgebäude: zentrale Anlage pauschal 2.000 €, dezentrale Geräte 200 € je Raum, höchstens 1.000 € je Wohnung. Ob Ihr Haus antragsberechtigt ist, prüfe ich vorab.', tag:'Antrag vor Auftrag', url:'https://www.bra.nrw.de/'},
+      {t:'NRW.BANK.Gebäudesanierung', d:'Darlehen von 2.500 bis 150.000 € für selbst genutzte Häuser, z. B. für Dämmung, Fenster und Heizung.', tag:'Kredit'},
+      {t:'Kostenlose Energieberatung der Stadt', d:'Erstberatung durch das Umweltamt. Für Sanierungsfahrplan und BAFA-Anträge brauchen Sie einen Energieeffizienz-Experten.', tag:'Beratung'}
+    ]},
+    nrw: {name:'Nordrhein-Westfalen', items:[
+      {t:'progres.nrw: Lüftung mit Wärmerückgewinnung', if:'anlage', d:'Landeszuschuss für Bestandsgebäude: zentrale Anlage pauschal 2.000 €, dezentrale Geräte 200 € je Raum, höchstens 1.000 € je Wohnung. Wärmepumpen in Ein- und Zweifamilienhäusern fördert das Land seit 2026 nicht mehr.', tag:'Antrag vor Auftrag', url:'https://www.bra.nrw.de/'},
+      {t:'NRW.BANK.Gebäudesanierung', d:'Darlehen von 2.500 bis 150.000 € für selbst genutzte Häuser, z. B. für Dämmung, Fenster und Heizung.', tag:'Kredit'}
+    ]},
+    hb: {name:'Bremen', items:[
+      {t:'Landesprogramme beendet', d:'Die Bremer Zuschüsse für Wärmeschutz und Heizungstausch sind seit 31.08.2025 eingestellt. Die Bundesförderung gilt unverändert.', tag:'Nur Bundesförderung', off:true},
+      {t:'Bremer Aufbau-Bank: „Rund ums Haus“', d:'Darlehen bis 50.000 € für Modernisierungen, ohne Grundbucheintrag. Antrag vor Auftragserteilung.', tag:'Kredit'}
+    ]}
+  };
+
+  function renderRegio(c){
+    var box = $('regio'), r = REG[$('reg').value];
+    box.innerHTML = '';
+    if (!r){ box.hidden = true; return; }
+    var list = document.createElement('ul'), sum = 0, shown = 0;
+    r.items.forEach(function(it){
+      if (it.until && c.today > it.until) return;
+      if (it.from && c.today < it.from) return;
+      if (it.if && !c[it.if]) return;
+      var v = it.calc ? it.calc(c) : null;
+      var li = document.createElement('li');
+      li.innerHTML = '<div class="pn"><span></span><span></span></div><p class="pt"></p><span class="tag"></span>';
+      li.querySelector('.pn span').textContent = it.t;
+      li.querySelectorAll('.pn span')[1].textContent = (v != null && v > 0) ? 'ca. ' + eur(v) : '';
+      li.querySelector('.pt').textContent = (it.calc && v == null && it.dno) ? it.dno : it.d;
+      var tag = li.querySelector('.tag'); tag.textContent = it.tag || ''; if (it.off) tag.className = 'tag off'; if (!it.tag) tag.remove();
+      if (it.url){ var a = document.createElement('a'); a.href = it.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = ' Zum Programm'; li.querySelector('.pt').appendChild(a); }
+      if (v != null && v > 0) sum += v;
+      list.appendChild(li); shown++;
+    });
+    if (!shown){ box.hidden = true; return; }
+    var h = document.createElement('h3'); h.textContent = 'Zusätzlich in ' + r.name;
+    var p = document.createElement('p'); p.className = 'rsum';
+    p.innerHTML = sum > 0 ? 'Möglich ca. <strong>' + eur(sum) + '</strong> zusätzlich. Nicht in der Summe oben enthalten, da Landes- und Kommunalmittel mit der Bundesförderung verrechnet werden können.' : 'Programme, die für Ihr Vorhaben in Frage kommen:';
+    box.appendChild(h); box.appendChild(p); box.appendChild(list);
+    var n2 = document.createElement('p'); n2.className = 'rsum'; n2.textContent = 'Stand 18.10.2026. Budgets sind begrenzt; ob und wie kombiniert werden darf, prüfe ich vor dem Antrag.';
+    box.appendChild(n2);
+    box.hidden = false;
+  }
+
   function calc(){
     var n = Math.max(1, Math.round(num('we')) || 1);
     var self = $('self-yes').checked;
     var rows = [], total = 0, costs = 0;
+    var ctx = {heiz:0, huelle:0, anlage:0, kgb:0, eb:0, self:self, n:n, today:new Date().toISOString().slice(0,10)};
 
     // Heizung (KfW)
     if ($('m-heiz').checked){
@@ -289,6 +397,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       var eb = self ? einkommensBonus(ek, kind) : 0;
       var max = (ek === '30' || (kind && ek === '40')) ? 80 : 70;
       var rate1 = Math.min(30 + kgb + eb, max);
+      ctx.heiz = c; ctx.kgb = kgb; ctx.eb = eb;
       var part1 = Math.min(elig, cap1), rest = elig - part1;
       var z = part1 * rate1/100 + rest * 0.30;
       total += z;
@@ -300,8 +409,8 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
 
     // BAFA Einzelmaßnahmen (gemeinsamer Höchstbetrag)
     var bafa = 0, labels = [];
-    if ($('m-huelle').checked){ bafa += num('c-huelle'); labels.push('Dämmung/Fenster'); }
-    if ($('m-anlage').checked){ bafa += num('c-anlage'); labels.push('Lüftung'); }
+    if ($('m-huelle').checked){ ctx.huelle = num('c-huelle'); bafa += num('c-huelle'); labels.push('Dämmung/Fenster'); }
+    if ($('m-anlage').checked){ ctx.anlage = num('c-anlage'); bafa += num('c-anlage'); labels.push('Lüftung'); }
     if ($('m-opt').checked){ bafa += num('c-opt'); labels.push('Heizungsoptimierung'); }
     if (labels.length){
       costs += bafa;
@@ -325,6 +434,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       rows.push({name:'Fachplanung und Baubegleitung', amt:zbb, meta:'50 % auf ' + eur(eligBB)});
     }
 
+    renderRegio(ctx);
     $('sum').textContent = eur(total);
     $('sub').textContent = costs ? ('bei ' + eur(costs) + ' geplanten Kosten · Eigenanteil ' + eur(costs - total)) : 'Wählen Sie mindestens eine Maßnahme';
     var box = $('rows'); box.innerHTML = '';
