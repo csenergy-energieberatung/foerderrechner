@@ -86,15 +86,14 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
 .regio .tag.off{background:var(--warn-bg);color:var(--warn)}
 .regio a{color:var(--accent)}
 .empty{padding:14px;color:var(--ink-soft);font-size:15px}
-.cta{border:1px solid var(--line);border-radius:12px;padding:18px;background:var(--surface);display:flex;flex-direction:column;gap:10px}
-.cta h3{font-size:19px}
-.cta p{margin:0;font-size:15px}
-.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;font:600 16px var(--f-body);text-decoration:none;border-radius:999px;padding:12px 18px;border:2px solid var(--accent);cursor:pointer}
-.btn.primary{background:var(--accent);color:var(--accent-ink)}
-.btn.ghost{background:transparent;color:var(--ink)}
+.cta{border-radius:12px;padding:24px 20px;background:var(--strong);color:var(--strong-ink);display:flex;flex-direction:column;gap:12px;text-align:center}
+.cta h3{font-size:20px;margin:0;color:var(--strong-ink)}
+.cta p{margin:0;font-size:15px;color:#dbe7f3}
+.btn{display:inline-flex;justify-content:center;align-items:center;font:600 16px var(--f-body);text-decoration:none;border-radius:10px;padding:13px 22px;border:2px solid #fff;cursor:pointer;min-width:150px}
+.btn.primary{background:#fff;color:var(--strong)}
+.btn.ghost{background:transparent;color:#fff}
+.cta .btns{justify-content:center}
 .btns{display:flex;flex-wrap:wrap;gap:10px}
-.phone{font-family:var(--f-num);font-size:15px;color:var(--ink-soft)}
-.phone button{font:600 13px var(--f-body);color:var(--accent);background:none;border:0;cursor:pointer;padding:0 0 0 6px;text-decoration:underline}
 .warn{background:var(--warn-bg);color:var(--warn);border-radius:10px;padding:12px 14px;font-size:14px}
 .foot{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-soft);max-width:80ch}
 .foot p{margin:0 0 8px}
@@ -251,13 +250,12 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       <div class="rows" id="rows"></div>
       <div class="regio" id="regio" hidden></div>
       <div class="cta">
-        <h3>Förderung sichern: rufen Sie mich an</h3>
+        <h3>Sprechen wir über Ihr Vorhaben.</h3>
         <p>Ich prüfe Ihr Vorhaben, stelle die nötigen Bestätigungen aus und sorge dafür, dass der Antrag rechtzeitig vor dem Auftrag gestellt wird.</p>
         <div class="btns">
-          <a class="btn primary" href="tel:+4915141309314">☎ Jetzt anrufen</a>
+          <a class="btn primary" href="tel:+4915141309314">Jetzt anrufen</a>
           <a class="btn ghost" href="https://wa.me/4915141309314?text=Hallo%20Herr%20Aslankilic%2C%20ich%20habe%20den%20F%C3%B6rderrechner%20genutzt%20und%20m%C3%B6chte%20meine%20F%C3%B6rderung%20pr%C3%BCfen%20lassen." target="_blank" rel="noopener">WhatsApp</a>
         </div>
-        <div class="phone">0151 41309314<button type="button" id="copy">Nummer kopieren</button></div>
       </div>
       <div class="warn"><strong>Wichtig:</strong> Den Förderantrag stellen Sie, bevor Sie den Handwerker beauftragen. Ein unterschriebener Auftrag vor dem Antrag kostet die Förderung.</div>
     </aside>
@@ -267,8 +265,8 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
     <p><strong>So rechnet der Rechner.</strong> Heizung (KfW): 30 % Grundförderung, Klimageschwindigkeitsbonus für Selbstnutzer beim Austausch einer fossilen Heizung (16 % bis 31.01.2027, danach sinkend), Einkommensbonus bis 40 %, höchstens 70 % (80 % bei niedrigem Einkommen). Förderfähig sind bis 28.000 € für die erste Wohnung, 15.000 € für die 2. bis 6. und 8.000 € ab der 7. Wohnung; die Boni gelten für die selbst bewohnte Wohnung. Dämmung, Fenster, Anlagentechnik und Heizungsoptimierung (BAFA): 15 %, förderfähig 30.000 € je Jahr für die erste Wohnung (mit iSFP 60.000 €), mit iSFP 5 % zusätzlich auf den Anteil über 30.000 €. Fachplanung und Baubegleitung: 50 %, angesetzt bis 5.000 € Honorar für Ein- und Zweifamilienhäuser und 2.000 € je Wohnung (höchstens 20.000 €) bei größeren Häusern.</p>
     <p>Ab 2027 ändern sich die Sätze für Wärmepumpen (15 % Grundförderung plus 15 % Bonus für Geräte aus EU-Fertigung), die Höchstbeträge sinken halbjährlich. Alle Werte sind eine unverbindliche Schätzung nach der BEG-Richtlinie ab 21.07.2026. Ob und in welcher Höhe gefördert wird, entscheiden allein BAFA und KfW. Steuerliche Förderung nach § 35c EStG ist eine Alternative und hier nicht eingerechnet.</p>
     <p><strong>Landes- und Kommunalprogramme</strong> (Hamburg, Niedersachsen, NRW, Bremen, Stand 18.10.2026) zeigt der Rechner getrennt an. Die Richtwerte sind nicht in der Summe enthalten, weil diese Mittel mit der Bundesförderung verrechnet werden und Budgets begrenzt sind.</p>
-    <p>CS Energy · M. Eng. Shahin Aslankilic · Energieeffizienz-Experte für Förderprogramme des Bundes · bundesweit im Einsatz · Hauptsitz in Wunstorf bei Hannover · Zweigstellen in Oldenburg und Bad Zwischenahn · Schwerpunkte Hannover, Bremen und Bielefeld</p>
-    <p><a href="https://csenergy-energieberatung.de/">Zur Website</a> · <a href="https://csenergy-energieberatung.de/impressum/">Impressum</a> · <a href="https://csenergy-energieberatung.de/datenschutz/">Datenschutz</a></p>
+    <p>CS Energy · M. Eng. Shahin Aslankilic · Energieeffizienz-Experte für Förderprogramme des Bundes</p>
+    <p><a href="https://csenergy-energieberatung.de/">Startseite</a> · <a href="https://csenergy-energieberatung.de/leistungen/">Leistungen</a> · <a href="https://csenergy-energieberatung.de/energieausweis/">Energieausweis</a> · <a href="https://csenergy-energieberatung.de/standorte/">Standorte</a> · <a href="https://csenergy-energieberatung.de/faq/">FAQ</a> · <a href="https://csenergy-energieberatung.de/kontakt/">Kontakt</a> · <a href="https://csenergy-energieberatung.de/impressum/">Impressum</a> · <a href="https://csenergy-energieberatung.de/datenschutz/">Datenschutz</a></p>
   </div>
 </div>
 
@@ -460,12 +458,6 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
   $('calc').addEventListener('input', calc);
   $('calc').addEventListener('change', calc);
   $('calc').addEventListener('submit', function(e){ e.preventDefault(); });
-  $('copy').addEventListener('click', function(){
-    var btn = this;
-    var done = function(){ btn.textContent = 'Kopiert'; setTimeout(function(){ btn.textContent = 'Nummer kopieren'; }, 1800); };
-    try { navigator.clipboard.writeText('+49 151 41309314').then(done, function(){ btn.textContent = '+49 151 41309314'; }); }
-    catch(e){ btn.textContent = '+49 151 41309314'; }
-  });
   calc();
 })();
 </script>
