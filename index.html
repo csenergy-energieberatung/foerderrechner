@@ -595,6 +595,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
     var calcInfo = m.join('; ') + (LAST.costs ? ' | Geschätzter Zuschuss laut Rechner: ' + eur(LAST.total) : '') + (heiz ? ' | Ersetzt wird: ' + selTxt('alt') + ' | Haushaltseinkommen: ' + selTxt('ek') + (($('kind').checked) ? ' | Kind unter 18 im Haushalt' : '') : '') + (LAST.gain > 0 ? ' | iSFP-Vorteil laut Rechner: ' + eur(LAST.gain) : '');
     var p = {
       '_subject': 'Angebotsanfrage über die Website', '_template': 'table', '_captcha': 'false', '_replyto': mail,
+      '_autoresponse': 'Guten Tag ' + $('r-name').value + ', vielen Dank für Ihre Anfrage. Sie ist bei mir eingegangen. Ich melde mich in Kürze persönlich bei Ihnen. Sie müssen nichts unterschreiben und nichts weiter tun. Viele Grüße, Shahin Aslankilic, CS Energy Energieberatung, Tel. +49 151 41309314',
       '01 Um was für ein Gebäude geht es?': $('r-geb').value,
       '02 Anzahl Wohnungen': weLabel(n),
       '03 Baujahr (Neubau: geplantes Baujahr)': $('r-bj').value.trim(),
