@@ -106,6 +106,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
 .isfpcmp.on{border-color:#2E9D4F;background:#EAF6EC}
 .isfpcmp .cmp .gain{grid-column:1/-1;margin-top:8px;padding:12px 14px;border-radius:10px;background:#2E9D4F;color:#fff;font-weight:700;font-size:1.02rem}
 .isfpcmp .cmp .gain.none{background:#F0B429;color:#2B2100;font-weight:700}
+.isfpcmp .hw{grid-column:1/-1;margin-top:8px;padding:10px 12px;border-radius:10px;background:#fff;border:2px solid #D64545;color:#7A1F1F;font-weight:700}
 .isfpcmp p{margin:10px 0 0;font-size:.9rem;opacity:.85}
 </style>
 </head>
@@ -134,8 +135,8 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
           </div>
           <div class="field">
             <label for="adr">Postleitzahl des Hauses</label>
-            <input type="text" id="adr" placeholder="z. B. 30459" inputmode="numeric" maxlength="5" pattern="[0-9]{5}" autocomplete="postal-code">
-            <span class="hint">Mehr brauche ich nicht. Daraus ermittle ich automatisch die passenden Landes- und Kommunalprogramme. Ihre Eingabe bleibt in Ihrem Browser.</span>
+            <input type="text" id="adr" placeholder="z. B. 30459" inputmode="numeric" maxlength="5" pattern="[0-9]{5}" autocomplete="off">
+            <span class="hint">Mehr brauche ich nicht. Daraus ermittle ich automatisch die passenden Landes- und Kommunalprogramme. Die Eingabe wird nicht gespeichert.</span>
           </div>
           <div class="field">
             <span class="lab">Wohnen Sie selbst im Haus?</span>
@@ -440,6 +441,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       var h = document.createElement('h3'); h.textContent = 'Mit und ohne Sanierungsfahrplan (iSFP)';
       var g = document.createElement('div'); g.className = 'cmp';
       var add = function(l, v, cls){ var a = document.createElement('span'); a.textContent = l; var b = document.createElement('span'); b.className = 'v'; b.textContent = v; g.appendChild(a); g.appendChild(b); };
+      add('Kosten, die für die Grenze zählen (ohne neue Heizung)', eur(bafa));
       add('Zuschuss Dämmung, Fenster, Technik ohne iSFP', eur(rNo.z));
       add('Zuschuss Dämmung, Fenster, Technik mit iSFP', eur(rYes.z));
       add('Gesamtzuschuss ohne iSFP', eur(totalOther + rNo.z));
@@ -449,7 +451,8 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       gd.textContent = gain > 0 ? ('Mit Sanierungsfahrplan bekommen Sie ' + eur(gain) + ' mehr Zuschuss. Es zählen Kosten bis ' + eur(capIsfp) + ' statt ' + eur(capNo) + ', dazu 5 % Bonus auf den Teil über ' + eur(thr) + '.') : ('Der Sanierungsfahrplan lohnt sich ab ' + eur(thr) + ' Kosten für Dämmung, Fenster und Technik. Ihnen fehlen noch ' + eur(thr - bafa) + ' bis dahin.');
       g.appendChild(gd);
       cmp.className = 'isfpcmp' + (gain > 0 ? ' on' : '');
-      var note = document.createElement('p'); note.textContent = 'Die Hauptsumme oben rechnet ohne Sanierungsfahrplan. Dazu kommt beim iSFP die 50-%-Förderung auf das Honorar.';
+      var note = document.createElement('p'); note.textContent = 'Wichtig: Die Grenze von ' + eur(thr) + ' gilt nur für Dämmung, Fenster, Türen, Lüftung und Heizungsoptimierung (BAFA). Die Kosten einer neuen Heizung (KfW) zählen nicht mit, auch wenn Sie insgesamt über ' + eur(thr) + ' liegen. Die Hauptsumme oben rechnet ohne Sanierungsfahrplan. Dazu kommt beim iSFP die 50-%-Förderung auf das Honorar.';
+      if ($('m-heiz').checked){ var hw = document.createElement('div'); hw.className = 'hw'; hw.textContent = 'Achtung: Ihre neue Heizung (' + eur(num('c-heiz')) + ') zählt hier nicht mit. Maßgeblich sind nur die ' + eur(bafa) + ' für Dämmung, Fenster und Technik.'; g.appendChild(hw); }
       cmp.appendChild(h); cmp.appendChild(g); cmp.appendChild(note); cmp.hidden = false;
       rows.push({name: labels.join(', '), amt: zb, meta: '15 % auf ' + eur(eligB) + (bonusBase ? ' + 5 % iSFP-Bonus auf ' + eur(bonusBase) : '') + (bafa > capMax ? ' (Höchstbetrag ' + eur(capMax) + ' erreicht)' : '') + (isfp && !bonusBase ? ' · iSFP gewählt: Der 5-%-Bonus gilt erst für Kosten über ' + eur(Math.max(capNo,30000)) + '. Bis dahin ändert sich die Förderung nicht, darüber steigen Höchstbetrag (bis ' + eur(capMax) + ') und Zuschuss.' : '')});
     }
@@ -468,7 +471,6 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
     renderRegio(ctx);
     // PLZ einmal erfassen und an die Angebotsseite weitergeben
     var plzM = ($('adr').value || '').match(/\d{5}/), plz = plzM ? plzM[0] : '';
-    try { if (plz) localStorage.setItem('cs_plz', plz); } catch(e){}
     document.querySelectorAll('a[href^="https://csenergy-energieberatung.de/angebot-anfordern/"]').forEach(function(a){
       a.href = 'https://csenergy-energieberatung.de/angebot-anfordern/' + (plz ? '?plz=' + plz : '');
     });
@@ -490,7 +492,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
   $('calc').addEventListener('input', calc);
   $('calc').addEventListener('change', calc);
   $('calc').addEventListener('submit', function(e){ e.preventDefault(); });
-  try { var sp = localStorage.getItem('cs_plz'); if (sp && !$('adr').value) $('adr').value = sp; } catch(e){}
+  try { localStorage.removeItem('cs_plz'); } catch(e){}
   calc();
 })();
 </script>
