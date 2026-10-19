@@ -120,7 +120,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
 
   <section class="intro">
     <h1>Wie viel Förderung bekommen Sie für Ihre Sanierung?</h1>
-    <p>Wählen Sie Ihre geplanten Maßnahmen und tragen Sie die geschätzten Kosten ein. Der Rechner zeigt, welchen Zuschuss Sie nach den aktuellen Regeln von BAFA und KfW ungefähr erwarten können. Die Beispielwerte können Sie einfach überschreiben.</p>
+    <p>Wählen Sie Ihre geplanten Maßnahmen und tragen Sie die geschätzten Kosten ein. Der Rechner zeigt, welchen Zuschuss Sie nach den aktuellen Regeln von BAFA und KfW ungefähr erwarten können.</p>
   </section>
 
   <div class="grid">
@@ -150,13 +150,13 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       <fieldset>
         <legend class="sr">Heizung</legend>
         <div class="m-head">
-          <input type="checkbox" id="m-heiz" checked>
+          <input type="checkbox" id="m-heiz">
           <label for="m-heiz">Neue Heizung<span class="hint">Wärmepumpe, Biomasse, Solarthermie oder Anschluss an ein Wärmenetz (KfW)</span></label>
         </div>
-        <div class="m-body" id="b-heiz">
+        <div class="m-body" id="b-heiz" hidden>
           <div class="field">
             <label for="c-heiz">Kosten inkl. Einbau</label>
-            <div class="euro"><input type="number" id="c-heiz" min="0" step="500" value="32000" inputmode="decimal"></div>
+            <div class="euro"><input type="number" id="c-heiz" min="0" step="500" value="" placeholder="0" inputmode="decimal"></div>
           </div>
           <div class="field">
             <label for="alt">Welche Heizung wird ersetzt?</label>
@@ -188,13 +188,13 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       <fieldset>
         <legend class="sr">Gebäudehülle</legend>
         <div class="m-head">
-          <input type="checkbox" id="m-huelle" checked>
+          <input type="checkbox" id="m-huelle">
           <label for="m-huelle">Dämmung, Fenster und Türen<span class="hint">Dach, Fassade, Kellerdecke, neue Fenster und Außentüren (BAFA)</span></label>
         </div>
-        <div class="m-body" id="b-huelle">
+        <div class="m-body" id="b-huelle" hidden>
           <div class="field">
             <label for="c-huelle">Kosten inkl. Einbau</label>
-            <div class="euro"><input type="number" id="c-huelle" min="0" step="500" value="25000" inputmode="decimal"></div>
+            <div class="euro"><input type="number" id="c-huelle" min="0" step="500" value="" placeholder="0" inputmode="decimal"></div>
           </div>
         </div>
       </fieldset>
@@ -208,7 +208,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
         <div class="m-body" id="b-anlage" hidden>
           <div class="field">
             <label for="c-anlage">Kosten inkl. Einbau</label>
-            <div class="euro"><input type="number" id="c-anlage" min="0" step="500" value="8000" inputmode="decimal"></div>
+            <div class="euro"><input type="number" id="c-anlage" min="0" step="500" value="" placeholder="0" inputmode="decimal"></div>
           </div>
         </div>
       </fieldset>
@@ -222,7 +222,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
         <div class="m-body" id="b-opt" hidden>
           <div class="field">
             <label for="c-opt">Kosten inkl. Einbau</label>
-            <div class="euro"><input type="number" id="c-opt" min="0" step="250" value="3000" inputmode="decimal"></div>
+            <div class="euro"><input type="number" id="c-opt" min="0" step="250" value="" placeholder="0" inputmode="decimal"></div>
           </div>
         </div>
       </fieldset>
@@ -236,7 +236,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
         <div class="m-body" id="b-bb" hidden>
           <div class="field">
             <label for="c-bb">Honorar</label>
-            <div class="euro"><input type="number" id="c-bb" min="0" step="100" value="2500" inputmode="decimal"></div>
+            <div class="euro"><input type="number" id="c-bb" min="0" step="100" value="" placeholder="0" inputmode="decimal"></div>
           </div>
         </div>
       </fieldset>
