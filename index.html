@@ -426,7 +426,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       var bonusBase = isfp ? Math.max(0, eligB - Math.max(capNo, 30000)) : 0;
       var zb = eligB * 0.15 + bonusBase * 0.05;
       total += zb;
-      rows.push({name: labels.join(', '), amt: zb, meta: '15 % auf ' + eur(eligB) + (bonusBase ? ' + 5 % iSFP-Bonus auf ' + eur(bonusBase) : '') + (bafa > capMax ? ' (Höchstbetrag ' + eur(capMax) + ' erreicht)' : '')});
+      rows.push({name: labels.join(', '), amt: zb, meta: '15 % auf ' + eur(eligB) + (bonusBase ? ' + 5 % iSFP-Bonus auf ' + eur(bonusBase) : '') + (bafa > capMax ? ' (Höchstbetrag ' + eur(capMax) + ' erreicht)' : '') + (isfp && !bonusBase ? ' · iSFP gewählt: Der 5-%-Bonus gilt erst für Kosten über ' + eur(Math.max(capNo,30000)) + '. Bis dahin ändert sich die Förderung nicht, darüber steigen Höchstbetrag (bis ' + eur(capMax) + ') und Zuschuss.' : '')});
     }
 
     // Fachplanung und Baubegleitung
