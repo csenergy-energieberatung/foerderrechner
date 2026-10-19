@@ -130,6 +130,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
 .isfpcmp .cmp .gain{grid-column:1/-1;margin-top:8px;padding:12px 14px;border-radius:10px;background:#2E9D4F;color:#fff;font-weight:700;font-size:1.02rem}
 .isfpcmp .cmp .gain.none{background:#F0B429;color:#2B2100;font-weight:700}
 .isfpcmp .hw{grid-column:1/-1;margin-top:8px;padding:10px 12px;border-radius:10px;background:#fff;border:2px solid #D64545;color:#7A1F1F;font-weight:700}
+.bbinfo{margin-top:14px;border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;padding:14px 16px;background:var(--surface);font-size:15px}
 .isfpcmp p{margin:10px 0 0;font-size:.9rem;opacity:.85}
 </style>
 </head>
@@ -251,19 +252,6 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
         </div>
       </fieldset>
 
-      <fieldset>
-        <legend class="sr">Baubegleitung</legend>
-        <div class="m-head">
-          <input type="checkbox" id="m-bb">
-          <label for="m-bb">Fachplanung und Baubegleitung durch einen Energieberater<span class="hint">50 % Zuschuss auf das Honorar</span></label>
-        </div>
-        <div class="m-body" id="b-bb" hidden>
-          <div class="field">
-            <label for="c-bb">Honorar</label>
-            <div class="euro"><input type="number" id="c-bb" min="0" step="100" value="" placeholder="0" inputmode="decimal"></div>
-          </div>
-        </div>
-      </fieldset>
     </form>
 
     <aside class="result" aria-live="polite">
@@ -275,6 +263,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       </div>
       <div class="rows" id="rows"></div>
       <div class="isfpcmp" id="isfpcmp" hidden></div>
+      <div class="bbinfo" id="bbinfo" hidden><strong>Dazu kommt: Fachplanung und Baubegleitung durch mich.</strong> Darauf gibt es 50 % Zuschuss. Mein Honorar und der Zuschuss dazu stehen einzeln in Ihrem Angebot und sind in der Summe oben noch nicht enthalten.</div>
       <div class="regio" id="regio" hidden></div>
       <div class="cta">
         <h3>Sprechen wir über Ihr Vorhaben.</h3>
@@ -525,16 +514,9 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       rows.push({name: labels.join(', '), amt: zb, meta: '15 % auf ' + eur(eligB) + (bonusBase ? ' + 5 % iSFP-Bonus auf ' + eur(bonusBase) : '') + (bafa > capMax ? ' (Höchstbetrag ' + eur(capMax) + ' erreicht)' : '') + (isfp && !bonusBase ? ' · iSFP gewählt: Der 5-%-Bonus gilt erst für Kosten über ' + eur(Math.max(capNo,30000)) + '. Bis dahin ändert sich die Förderung nicht, darüber steigen Höchstbetrag (bis ' + eur(capMax) + ') und Zuschuss.' : '')});
     }
 
-    // Fachplanung und Baubegleitung
-    if ($('m-bb').checked){
-      var cb = num('c-bb'); costs += cb;
-      var capBB = n <= 2 ? 5000 : Math.min(2000*n, 20000);
-      var eligBB = Math.min(cb, capBB);
-      var zbb = eligBB * 0.5;
-      total += zbb;
-      rows.push({name:'Fachplanung und Baubegleitung', amt:zbb, meta:'50 % auf ' + eur(eligBB)});
-    }
-
+    // Fachplanung und Baubegleitung: ab zwei Maßnahmen Hinweis, Honorar und Zuschuss stehen im Angebot
+    var nMass = ($('m-heiz').checked?1:0) + ($('m-huelle').checked?1:0) + ($('m-anlage').checked?1:0) + ($('m-opt').checked?1:0);
+    var bbi = $('bbinfo'); bbi.hidden = nMass < 2;
     if (!labels.length){ $('isfpcmp').hidden = true; LAST.gain = 0; LAST.bafa = 0; }
     renderRegio(ctx);
     LAST.total = total; LAST.costs = costs; updateTaken();
@@ -550,7 +532,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
     });
   }
 
-  [['m-heiz','b-heiz'],['m-huelle','b-huelle'],['m-anlage','b-anlage'],['m-opt','b-opt'],['m-bb','b-bb']].forEach(function(p){
+  [['m-heiz','b-heiz'],['m-huelle','b-huelle'],['m-anlage','b-anlage'],['m-opt','b-opt']].forEach(function(p){
     $(p[0]).addEventListener('change', function(){ $(p[1]).hidden = !this.checked; calc(); });
   });
   $('calc').addEventListener('input', calc);
@@ -566,7 +548,6 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
     if ($('m-huelle').checked) m.push('Dämmung, Fenster und Türen (' + eur(num('c-huelle')) + ')');
     if ($('m-anlage').checked) m.push('Lüftungsanlage (' + eur(num('c-anlage')) + ')');
     if ($('m-opt').checked) m.push('Heizungsoptimierung (' + eur(num('c-opt')) + ')');
-    if ($('m-bb').checked) m.push('Fachplanung und Baubegleitung, Honorar ' + eur(num('c-bb')));
     return m;
   }
   function updateTaken(){
