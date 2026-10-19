@@ -98,6 +98,13 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
 .foot{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-soft);max-width:80ch}
 .foot p{margin:0 0 8px}
 @media (prefers-reduced-motion:no-preference){.total .big{transition:opacity .15s}}
+.isfpcmp{margin-top:16px;border:2px solid #C9DBEC;border-radius:14px;padding:16px 18px;background:#fff}
+.isfpcmp h3{margin:0 0 10px;font-size:1.05rem}
+.isfpcmp .cmp{display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:baseline;font-size:.97rem}
+.isfpcmp .cmp .v{font-weight:700;text-align:right;white-space:nowrap}
+.isfpcmp .cmp .gain{grid-column:1/-1;margin-top:6px;padding:8px 12px;border-radius:10px;background:#EAF6EC;font-weight:700}
+.isfpcmp .cmp .gain.none{background:#F3F5F8;font-weight:400}
+.isfpcmp p{margin:10px 0 0;font-size:.9rem;opacity:.85}
 </style>
 </head>
 <body>
@@ -124,9 +131,9 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
             <input type="number" id="we" min="1" max="200" step="1" value="1" inputmode="numeric">
           </div>
           <div class="field">
-            <label for="adr">Adresse des Hauses</label>
-            <input type="text" id="adr" placeholder="z. B. Musterstraße 1, 30159 Hannover" autocomplete="street-address">
-            <span class="hint">Die Postleitzahl genügt. Damit prüfe ich zusätzlich Landes- und Kommunalprogramme. Ihre Eingabe bleibt in Ihrem Browser.</span>
+            <label for="adr">Postleitzahl des Hauses</label>
+            <input type="text" id="adr" placeholder="z. B. 30459" inputmode="numeric" maxlength="5" pattern="[0-9]{5}" autocomplete="postal-code">
+            <span class="hint">Mehr brauche ich nicht. Daraus ermittle ich automatisch die passenden Landes- und Kommunalprogramme. Ihre Eingabe bleibt in Ihrem Browser.</span>
           </div>
           <div class="field">
             <span class="lab">Wohnen Sie selbst im Haus?</span>
@@ -249,6 +256,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
         <div class="btns" style="margin-top:16px"><a class="btn primary" href="https://csenergy-energieberatung.de/angebot-anfordern/" target="_top">Jetzt unverbindliches Angebot anfordern</a></div>
       </div>
       <div class="rows" id="rows"></div>
+      <div class="isfpcmp" id="isfpcmp" hidden></div>
       <div class="regio" id="regio" hidden></div>
       <div class="cta">
         <h3>Sprechen wir über Ihr Vorhaben.</h3>
@@ -423,11 +431,30 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       costs += bafa;
       var isfp = $('isfp').checked;
       var capNo = capPerWE(n, 30000, 15000, 8000);
-      var capMax = isfp ? capPerWE(n, 60000, 30000, 15000) : capNo;
-      var eligB = Math.min(bafa, capMax);
-      var bonusBase = isfp ? Math.max(0, eligB - Math.max(capNo, 30000)) : 0;
-      var zb = eligB * 0.15 + bonusBase * 0.05;
+      var capIsfp = capPerWE(n, 60000, 30000, 15000);
+      var calcB = function(withIsfp){
+        var cm = withIsfp ? capIsfp : capNo, el = Math.min(bafa, cm);
+        var bb = withIsfp ? Math.max(0, el - Math.max(capNo, 30000)) : 0;
+        return {cap: cm, elig: el, bonusBase: bb, z: el * 0.15 + bb * 0.05};
+      };
+      var rNo = calcB(false), rYes = calcB(true), rSel = isfp ? rYes : rNo;
+      var capMax = rSel.cap, eligB = rSel.elig, bonusBase = rSel.bonusBase, zb = rSel.z;
+      var totalOther = total;
       total += zb;
+      var cmp = $('isfpcmp'), gain = rYes.z - rNo.z;
+      cmp.innerHTML = '';
+      var h = document.createElement('h3'); h.textContent = 'Mit und ohne Sanierungsfahrplan (iSFP)';
+      var g = document.createElement('div'); g.className = 'cmp';
+      var add = function(l, v, cls){ var a = document.createElement('span'); a.textContent = l; var b = document.createElement('span'); b.className = 'v'; b.textContent = v; g.appendChild(a); g.appendChild(b); };
+      add('Zuschuss Dämmung, Fenster, Technik ohne iSFP', eur(rNo.z));
+      add('Zuschuss Dämmung, Fenster, Technik mit iSFP', eur(rYes.z));
+      add('Gesamtzuschuss ohne iSFP', eur(totalOther + rNo.z));
+      add('Gesamtzuschuss mit iSFP', eur(totalOther + rYes.z));
+      var gd = document.createElement('div'); gd.className = 'gain' + (gain > 0 ? '' : ' none');
+      gd.textContent = gain > 0 ? ('Ihr Vorteil mit Sanierungsfahrplan: ' + eur(gain) + ' mehr Zuschuss (höherer Höchstbetrag bis ' + eur(capIsfp) + ' und 5 % Bonus auf den Teil über ' + eur(Math.max(capNo,30000)) + ')') : ('Bei ' + eur(bafa) + ' Kosten bringt der iSFP bei der Zuschusshöhe noch keinen Vorteil. Ab ' + eur(Math.max(capNo,30000)) + ' Kosten steigt der Zuschuss mit iSFP.');
+      g.appendChild(gd);
+      var note = document.createElement('p'); note.textContent = 'Die Rechnung oben richtet sich nach Ihrer Auswahl beim Sanierungsfahrplan. Dazu kommt beim iSFP die 50-%-Förderung auf das Honorar.';
+      cmp.appendChild(h); cmp.appendChild(g); cmp.appendChild(note); cmp.hidden = false;
       rows.push({name: labels.join(', '), amt: zb, meta: '15 % auf ' + eur(eligB) + (bonusBase ? ' + 5 % iSFP-Bonus auf ' + eur(bonusBase) : '') + (bafa > capMax ? ' (Höchstbetrag ' + eur(capMax) + ' erreicht)' : '') + (isfp && !bonusBase ? ' · iSFP gewählt: Der 5-%-Bonus gilt erst für Kosten über ' + eur(Math.max(capNo,30000)) + '. Bis dahin ändert sich die Förderung nicht, darüber steigen Höchstbetrag (bis ' + eur(capMax) + ') und Zuschuss.' : '')});
     }
 
@@ -441,7 +468,14 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       rows.push({name:'Fachplanung und Baubegleitung', amt:zbb, meta:'50 % auf ' + eur(eligBB)});
     }
 
+    if (!labels.length) $('isfpcmp').hidden = true;
     renderRegio(ctx);
+    // PLZ einmal erfassen und an die Angebotsseite weitergeben
+    var plzM = ($('adr').value || '').match(/\d{5}/), plz = plzM ? plzM[0] : '';
+    try { if (plz) localStorage.setItem('cs_plz', plz); } catch(e){}
+    document.querySelectorAll('a[href^="https://csenergy-energieberatung.de/angebot-anfordern/"]').forEach(function(a){
+      a.href = 'https://csenergy-energieberatung.de/angebot-anfordern/' + (plz ? '?plz=' + plz : '');
+    });
     $('sum').textContent = eur(total);
     $('sub').textContent = costs ? ('bei ' + eur(costs) + ' geplanten Kosten · Eigenanteil ' + eur(costs - total)) : 'Wählen Sie mindestens eine Maßnahme';
     var box = $('rows'); box.innerHTML = '';
@@ -460,6 +494,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
   $('calc').addEventListener('input', calc);
   $('calc').addEventListener('change', calc);
   $('calc').addEventListener('submit', function(e){ e.preventDefault(); });
+  try { var sp = localStorage.getItem('cs_plz'); if (sp && !$('adr').value) $('adr').value = sp; } catch(e){}
   calc();
 })();
 </script>
