@@ -98,6 +98,29 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
 .foot{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-soft);max-width:80ch}
 .foot p{margin:0 0 8px}
 @media (prefers-reduced-motion:no-preference){.total .big{transition:opacity .15s}}
+
+.reqform{margin-top:36px;border:2px solid var(--accent);border-radius:16px;padding:24px 22px;background:var(--bg)}
+.reqform h2{font-size:clamp(22px,3.4vw,28px);font-weight:800}
+.reqform .lead{color:var(--ink-soft);margin:8px 0 14px}
+.taken{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:18px;font-size:15px}
+.taken strong{display:block;margin-bottom:6px}
+.taken ul{margin:0;padding-left:18px}
+.taken .none{color:var(--warn)}
+.reqform h3{font-size:17px;margin:22px 0 0}
+.reqform select,.reqform textarea,.reqform input[type=email],.reqform input[type=tel]{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%;min-width:0}
+.reqform textarea{min-height:84px;resize:vertical}
+.reqform .full{grid-column:1/-1}
+.reqform .chk{display:flex;gap:10px;align-items:flex-start;font-size:15px;cursor:pointer}
+.reqform .chk input{margin-top:3px;flex:none}
+.reqform .sub{display:flex;flex-wrap:wrap;gap:8px 18px}
+.reqform .sub label{display:flex;gap:8px;align-items:center;cursor:pointer;font-size:15px}
+.reqform .send{margin-top:20px}
+.reqform .send .btn{background:var(--strong);color:#fff;border-color:var(--strong);width:100%;font-size:17px}
+.reqform .send .btn[disabled]{opacity:.6;cursor:wait}
+.reqmsg{margin-top:14px;border-radius:10px;padding:12px 14px;font-size:15px}
+.reqmsg.err{background:#fde8e8;color:#7a1f1f}
+.reqmsg.ok{background:#eaf6ec;color:#17502c;font-weight:600}
+.reqform .hp{position:absolute;left:-9999px;height:0;overflow:hidden}
 .isfpcmp{margin-top:16px;border:2px solid #C9DBEC;border-radius:14px;padding:16px 18px;background:#fff}
 .isfpcmp h3{margin:0 0 10px;font-size:1.05rem}
 .isfpcmp .cmp{display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:baseline;font-size:.97rem}
@@ -248,7 +271,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
         <span class="lab">Möglicher Zuschuss</span>
         <div class="big" id="sum">0 €</div>
         <div class="sub" id="sub">bei 0 € geplanten Kosten</div>
-        <div class="btns" style="margin-top:16px"><a class="btn primary" href="https://csenergy-energieberatung.de/angebot-anfordern/" target="_top">Jetzt unverbindliches Angebot anfordern</a></div>
+        <div class="btns" style="margin-top:16px"><a class="btn primary" href="#anfrage">Jetzt unverbindliches Angebot anfordern</a></div>
       </div>
       <div class="rows" id="rows"></div>
       <div class="isfpcmp" id="isfpcmp" hidden></div>
@@ -257,7 +280,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
         <h3>Sprechen wir über Ihr Vorhaben.</h3>
         <p>Ich prüfe Ihr Vorhaben, stelle die nötigen Bestätigungen aus und sorge dafür, dass der Antrag rechtzeitig vor dem Auftrag gestellt wird.</p>
         <div class="btns">
-          <a class="btn primary" href="https://csenergy-energieberatung.de/angebot-anfordern/" target="_top">Angebot anfordern</a>
+          <a class="btn primary" href="#anfrage">Angebot anfordern</a>
           <a class="btn ghost" href="tel:+4915141309314">Jetzt anrufen</a>
           <a class="btn ghost" href="https://wa.me/4915141309314?text=Hallo%20Herr%20Aslankilic%2C%20ich%20habe%20den%20F%C3%B6rderrechner%20genutzt%20und%20m%C3%B6chte%20meine%20F%C3%B6rderung%20pr%C3%BCfen%20lassen." target="_blank" rel="noopener">WhatsApp</a>
         </div>
@@ -265,6 +288,50 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       <div class="warn"><strong>Wichtig:</strong> Den Förderantrag stellen Sie, bevor Sie den Handwerker beauftragen. Ein unterschriebener Auftrag vor dem Antrag kostet die Förderung.</div>
     </aside>
   </div>
+
+  <section class="reqform" id="anfrage">
+    <h2>Angebot anfordern</h2>
+    <p class="lead">Ihre Angaben aus dem Rechner übernehme ich. Es fehlen nur noch wenige Daten. Kostenlos und unverbindlich, Antwort in der Regel innerhalb eines Werktags.</p>
+    <div class="taken" id="taken"></div>
+    <form id="req" novalidate>
+      <div class="hp" aria-hidden="true"><label>Nicht ausfüllen <input type="text" id="r-honey" tabindex="-1" autocomplete="off"></label></div>
+      <h3>Ihr Haus</h3>
+      <div class="m-body" style="margin-top:10px">
+        <div class="field"><label for="r-geb">Um was für ein Gebäude geht es?</label>
+          <select id="r-geb"><option value="">Bitte wählen</option><option>Einfamilienhaus</option><option>Doppelhaushälfte / Reihenhaus</option><option>Zweifamilienhaus</option><option>Mehrfamilienhaus</option><option>Neubau (noch nicht gebaut)</option></select></div>
+        <div class="field"><label for="r-bj">Baujahr</label><input type="text" id="r-bj" inputmode="numeric" maxlength="4" placeholder="z. B. 1975" autocomplete="off"></div>
+        <div class="field"><label for="r-qm">Wohnfläche in m² (ungefähr)</label><input type="text" id="r-qm" inputmode="numeric" placeholder="z. B. 140" autocomplete="off"></div>
+        <div class="field" id="r-heizwrap"><label for="r-heiz">Womit wird aktuell geheizt?</label>
+          <select id="r-heiz"><option value="">Bitte wählen</option><option>Erdgas</option><option>Heizöl</option><option>Fernwärme</option><option>Wärmepumpe</option><option>Holzpellets</option><option>Strom (Nachtspeicher)</option><option>Flüssiggas</option><option>Etwas anderes</option></select></div>
+        <div class="field" id="r-wpwrap" hidden><label for="r-wp">Welche neue Heizung haben Sie im Blick?</label>
+          <select id="r-wp"><option>Weiß ich noch nicht</option><option>Luft-Wärmepumpe</option><option>Erdwärmepumpe</option><option>Pellets / Holz</option><option>Fernwärme</option></select></div>
+        <div class="field full" id="r-teilwrap" hidden><span class="lab">Was genau soll an der Außenhülle gemacht werden?</span>
+          <div class="sub" id="r-teil"><label><input type="checkbox" value="Dach oder oberste Geschossdecke"> Dach / oberste Geschossdecke</label><label><input type="checkbox" value="Fassade"> Fassade</label><label><input type="checkbox" value="Fenster und Türen"> Fenster und Türen</label><label><input type="checkbox" value="Kellerdecke"> Kellerdecke</label></div></div>
+        <label class="chk full" id="r-isfpwrap" hidden><input type="checkbox" id="r-isfp"> <span>Ich möchte den Sanierungsfahrplan (iSFP) im Angebot, wie im Rechner gezeigt.</span></label>
+      </div>
+      <h3>Ihr Vorhaben</h3>
+      <div class="m-body" style="margin-top:10px">
+        <div class="field"><span class="lab">Haben Sie schon ein Handwerkerangebot?</span>
+          <div class="inline" role="radiogroup"><label><input type="radio" name="r-hw" value="Nein"> Nein</label><label><input type="radio" name="r-hw" value="Ja, noch nicht unterschrieben"> Ja, nicht unterschrieben</label><label><input type="radio" name="r-hw" value="Ja, schon beauftragt"> Ja, schon beauftragt</label></div></div>
+        <div class="field"><label for="r-when">Wann soll es losgehen? (freiwillig)</label>
+          <select id="r-when"><option value="">Keine Angabe</option><option>So schnell wie möglich</option><option>In 6 Monaten</option><option>In 6 bis 12 Monaten</option><option>Später, erst informieren</option></select></div>
+        <div class="field full"><label for="r-msg">Noch etwas mitteilen? (freiwillig)</label><textarea id="r-msg" placeholder="Zum Beispiel: Ölheizung gegen Wärmepumpe tauschen und Dach dämmen. Was ist sinnvoll?"></textarea></div>
+      </div>
+      <h3>Ihre Kontaktdaten</h3>
+      <div class="m-body" style="margin-top:10px">
+        <div class="field"><label for="r-str">Straße und Hausnummer des Gebäudes</label><input type="text" id="r-str" autocomplete="street-address"></div>
+        <div class="field"><label for="r-ort">Ort (Postleitzahl aus dem Rechner)</label><input type="text" id="r-ort" autocomplete="off"></div>
+        <div class="field"><span class="lab">Anrede</span>
+          <div class="inline" role="radiogroup"><label><input type="radio" name="r-an" value="Frau"> Frau</label><label><input type="radio" name="r-an" value="Herr"> Herr</label><label><input type="radio" name="r-an" value="Firma / Hausverwaltung"> Firma</label></div></div>
+        <div class="field"><label for="r-name">Vor- und Nachname</label><input type="text" id="r-name" autocomplete="name"></div>
+        <div class="field"><label for="r-mail">E-Mail</label><input type="email" id="r-mail" autocomplete="email"></div>
+        <div class="field"><label for="r-tel">Telefon oder WhatsApp</label><input type="tel" id="r-tel" autocomplete="tel"></div>
+        <label class="chk full"><input type="checkbox" id="r-ok"> <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verarbeitet und über den Formular-Dienst FormSubmit an CS Energy übermittelt werden (siehe <a href="https://csenergy-energieberatung.de/datenschutz/" target="_top">Datenschutzerklärung</a>).</span></label>
+      </div>
+      <div class="send"><button type="submit" class="btn" id="r-send">Unverbindliches Angebot anfordern</button></div>
+      <div class="reqmsg" id="reqmsg" hidden role="status"></div>
+    </form>
+  </section>
 
   <div class="foot">
     <p><strong>So rechnet der Rechner.</strong> Heizung (KfW): 30 % Grundförderung, Klimageschwindigkeitsbonus für Selbstnutzer beim Austausch einer fossilen Heizung (16 % bis 31.01.2027, danach sinkend), Einkommensbonus bis 40 %, höchstens 70 % (80 % bei niedrigem Einkommen). Förderfähig sind bis 28.000 € für die erste Wohnung, 15.000 € für die 2. bis 6. und 8.000 € ab der 7. Wohnung; die Boni gelten für die selbst bewohnte Wohnung. Dämmung, Fenster, Anlagentechnik und Heizungsoptimierung (BAFA): 15 %, förderfähig 30.000 € je Jahr für die erste Wohnung (mit iSFP 60.000 €), mit iSFP 5 % zusätzlich auf den Anteil über 30.000 €. Fachplanung und Baubegleitung: 50 %, angesetzt bis 5.000 € Honorar für Ein- und Zweifamilienhäuser und 2.000 € je Wohnung (höchstens 20.000 €) bei größeren Häusern.</p>
@@ -287,6 +354,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
   var KGB = [["2026-07-21",16],["2027-02-01",12],["2027-08-01",8],["2028-02-01",4],["2028-08-01",0]];
   function byDate(tbl){ var t = new Date().toISOString().slice(0,10), v = tbl[0][1]; for (var i=0;i<tbl.length;i++){ if (t >= tbl[i][0]) v = tbl[i][1]; } return v; }
 
+  var LAST = {gain:0, bafa:0, total:0, costs:0};
   function einkommensBonus(ek, kind){
     // Nachweis über zu versteuerndes Einkommen; mit Kind wird das Einkommen um 10.000 € gemindert
     var table = kind ? {30:40,40:40,50:30,60:10,99:0} : {30:40,40:30,50:10,60:0,99:0};
@@ -436,7 +504,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       var capMax = rSel.cap, eligB = rSel.elig, bonusBase = rSel.bonusBase, zb = rSel.z;
       var totalOther = total;
       total += zb;
-      var cmp = $('isfpcmp'), gain = rYes.z - rNo.z;
+      var cmp = $('isfpcmp'), gain = rYes.z - rNo.z; LAST.gain = gain; LAST.bafa = bafa;
       cmp.innerHTML = '';
       var h = document.createElement('h3'); h.textContent = 'Mit und ohne Sanierungsfahrplan (iSFP)';
       var g = document.createElement('div'); g.className = 'cmp';
@@ -467,13 +535,9 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       rows.push({name:'Fachplanung und Baubegleitung', amt:zbb, meta:'50 % auf ' + eur(eligBB)});
     }
 
-    if (!labels.length) $('isfpcmp').hidden = true;
+    if (!labels.length){ $('isfpcmp').hidden = true; LAST.gain = 0; LAST.bafa = 0; }
     renderRegio(ctx);
-    // PLZ einmal erfassen und an die Angebotsseite weitergeben
-    var plzM = ($('adr').value || '').match(/\d{5}/), plz = plzM ? plzM[0] : '';
-    document.querySelectorAll('a[href^="https://csenergy-energieberatung.de/angebot-anfordern/"]').forEach(function(a){
-      a.href = 'https://csenergy-energieberatung.de/angebot-anfordern/' + (plz ? '?plz=' + plz : '');
-    });
+    LAST.total = total; LAST.costs = costs; updateTaken();
     $('sum').textContent = eur(total);
     $('sub').textContent = costs ? ('bei ' + eur(costs) + ' geplanten Kosten · Eigenanteil ' + eur(costs - total)) : 'Wählen Sie mindestens eine Maßnahme';
     var box = $('rows'); box.innerHTML = '';
@@ -492,6 +556,94 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
   $('calc').addEventListener('input', calc);
   $('calc').addEventListener('change', calc);
   $('calc').addEventListener('submit', function(e){ e.preventDefault(); });
+
+  // ---- Angebot direkt aus dem Rechner anfordern
+  function selTxt(id){ var e = $(id); return e.options[e.selectedIndex].text; }
+  function weLabel(n){ return n<=2 ? String(n) : n<=4 ? '3 bis 4' : n<=6 ? '5 bis 6' : n<=12 ? '7 bis 12' : n<=20 ? '13 bis 20' : 'mehr als 20'; }
+  function picked(){
+    var m = [];
+    if ($('m-heiz').checked) m.push('Neue Heizung (' + eur(num('c-heiz')) + ')');
+    if ($('m-huelle').checked) m.push('Dämmung, Fenster und Türen (' + eur(num('c-huelle')) + ')');
+    if ($('m-anlage').checked) m.push('Lüftungsanlage (' + eur(num('c-anlage')) + ')');
+    if ($('m-opt').checked) m.push('Heizungsoptimierung (' + eur(num('c-opt')) + ')');
+    if ($('m-bb').checked) m.push('Fachplanung und Baubegleitung, Honorar ' + eur(num('c-bb')));
+    return m;
+  }
+  function updateTaken(){
+    var box = $('taken'); if (!box) return;
+    var n = Math.max(1, Math.round(num('we')) || 1), plz = (($('adr').value||'').match(/\d{5}/)||[''])[0], m = picked();
+    var li = ['<li>' + n + (n===1 ? ' Wohnung' : ' Wohnungen') + ', ' + ($('self-yes').checked ? 'selbst bewohnt' : 'vermietet') + '</li>', '<li>Postleitzahl: ' + (plz || '<span class="none">noch nicht eingetragen (oben im Rechner)</span>') + '</li>'];
+    if (m.length) li.push('<li>' + m.join('</li><li>') + '</li>'); else li.push('<li class="none">Noch keine Maßnahme gewählt (oben im Rechner ankreuzen)</li>');
+    if (LAST.costs) li.push('<li>Geschätzter Zuschuss laut Rechner: ' + eur(LAST.total) + '</li>');
+    box.innerHTML = '<strong>Aus dem Rechner übernommen:</strong><ul>' + li.join('') + '</ul>';
+    var heiz = $('m-heiz').checked, huelle = $('m-huelle').checked;
+    $('r-heizwrap').hidden = heiz; $('r-wpwrap').hidden = !heiz; $('r-teilwrap').hidden = !huelle;
+    var showIsfp = LAST.gain > 0; $('r-isfpwrap').hidden = !showIsfp;
+    if (showIsfp && !$('r-isfp').dataset.touched) $('r-isfp').checked = true;
+    if (!showIsfp && !$('r-isfp').dataset.touched) $('r-isfp').checked = false;
+  }
+  $('r-isfp').addEventListener('change', function(){ this.dataset.touched = '1'; });
+
+  function showMsg(txt, cls){ var b = $('reqmsg'); b.className = 'reqmsg ' + cls; b.textContent = txt; b.hidden = false; b.scrollIntoView({block:'nearest'}); }
+  $('req').addEventListener('submit', function(e){
+    e.preventDefault();
+    if ($('r-honey').value) return;
+    var plz = (($('adr').value||'').match(/\d{5}/)||[''])[0], m = picked(), n = Math.max(1, Math.round(num('we')) || 1), heiz = $('m-heiz').checked;
+    var miss = [];
+    if (!m.length) miss.push('Bitte oben im Rechner mindestens eine Maßnahme ankreuzen.');
+    if (!plz) miss.push('Bitte oben im Rechner die Postleitzahl eintragen.');
+    if (!$('r-geb').value) miss.push('Gebäudeart');
+    if (!$('r-bj').value.trim()) miss.push('Baujahr');
+    if (!$('r-qm').value.trim()) miss.push('Wohnfläche');
+    if (!heiz && !$('r-heiz').value) miss.push('Aktuelle Heizung');
+    var hw = document.querySelector('input[name=r-hw]:checked'); if (!hw) miss.push('Handwerkerangebot');
+    if (!$('r-str').value.trim()) miss.push('Straße und Hausnummer');
+    if (!$('r-ort').value.trim()) miss.push('Ort');
+    var an = document.querySelector('input[name=r-an]:checked'); if (!an) miss.push('Anrede');
+    if (!$('r-name').value.trim()) miss.push('Name');
+    var mail = $('r-mail').value.trim(); if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)) miss.push('gültige E-Mail');
+    if (!$('r-tel').value.trim()) miss.push('Telefon');
+    if (!$('r-ok').checked) miss.push('Einverständnis');
+    if (miss.length){
+      var top = miss.filter(function(x){ return /^Bitte oben/.test(x); }), rest = miss.filter(function(x){ return !/^Bitte oben/.test(x); });
+      showMsg(top.concat(rest.length ? ['Bitte ergänzen: ' + rest.join(', ') + '.'] : []).join(' '), 'err');
+      return;
+    }
+    var aussen = [].slice.call(document.querySelectorAll('#r-teil input:checked')).map(function(c){return c.value;});
+    var tech = []; if (heiz) tech.push('Neue Heizung oder Wärmepumpe'); if ($('m-opt').checked) tech.push('Bestehende Heizung verbessern'); if ($('m-anlage').checked) tech.push('Lüftungsanlage');
+    var andere = []; if (!$('r-isfpwrap').hidden && $('r-isfp').checked) andere.push('Sanierungsfahrplan (iSFP), empfohlen');
+    var calcInfo = m.join('; ') + (LAST.costs ? ' | Geschätzter Zuschuss laut Rechner: ' + eur(LAST.total) : '') + (heiz ? ' | Ersetzt wird: ' + selTxt('alt') + ' | Haushaltseinkommen: ' + selTxt('ek') + (($('kind').checked) ? ' | Kind unter 18 im Haushalt' : '') : '') + (LAST.gain > 0 ? ' | iSFP-Vorteil laut Rechner: ' + eur(LAST.gain) : '');
+    var p = {
+      '_subject': 'Angebotsanfrage über die Website', '_template': 'table', '_captcha': 'false', '_replyto': mail,
+      '01 Um was für ein Gebäude geht es?': $('r-geb').value,
+      '02 Anzahl Wohnungen': weLabel(n),
+      '03 Baujahr (Neubau: geplantes Baujahr)': $('r-bj').value.trim(),
+      '04 Wohnfläche in m² (ungefähr)': $('r-qm').value.trim(),
+      '05 Womit wird aktuell geheizt?': heiz ? selTxt('alt') : $('r-heiz').value,
+      '06 Sie sind': $('self-yes').checked ? 'Eigentümer, selbst bewohnt' : 'Eigentümer, vermietet',
+      '07 Außenhülle (Gebäude von außen)': $('m-huelle').checked ? (aussen.length ? aussen.join(', ') : 'Ja, Auswahl nicht näher angegeben') : '–',
+      '08 Heizung und Technik': tech.length ? tech.join(', ') : '–',
+      '09 Alles andere': andere.length ? andere.join(', ') : '–',
+      '10 Nur bei neuer Heizung: Welche haben Sie im Blick?': heiz ? $('r-wp').value : 'Betrifft mich nicht',
+      '11 Haben Sie schon ein Handwerkerangebot?': hw.value,
+      '12 Wann soll es losgehen?': $('r-when').value || 'Keine Angabe',
+      '13 Noch etwas mitteilen?': $('r-msg').value.trim() || '–',
+      '14 Straße und Hausnummer des Gebäudes': $('r-str').value.trim(),
+      '15 PLZ und Ort des Gebäudes': plz + ' ' + $('r-ort').value.trim(),
+      '16 Anrede': an.value,
+      '17 Vor- und Nachname': $('r-name').value.trim(),
+      '18 E-Mail': mail,
+      '19 Telefon oder WhatsApp': $('r-tel').value.trim(),
+      '20 Angaben aus dem Förderrechner': calcInfo
+    };
+    var btn = $('r-send'); btn.disabled = true; btn.textContent = 'Wird gesendet …'; $('reqmsg').hidden = true;
+    fetch('https://formsubmit.co/ajax/csenergy@web.de', {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body: JSON.stringify(p)})
+      .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ if (!r.ok || String(j.success) === 'false') throw new Error('x'); return j; }); })
+      .then(function(){ $('req').reset(); showMsg('Vielen Dank! Ihre Anfrage ist eingegangen. Sie erhalten in Kürze eine Bestätigung per E-Mail und Ihr unverbindliches Angebot in der Regel innerhalb eines Werktags.', 'ok'); btn.textContent = 'Anfrage gesendet'; })
+      .catch(function(){ btn.disabled = false; btn.textContent = 'Unverbindliches Angebot anfordern'; showMsg('Das Senden hat leider nicht geklappt. Bitte rufen Sie kurz an unter +49 151 41309314 oder schreiben Sie per WhatsApp. Ihre Angaben aus dem Rechner bleiben hier stehen.', 'err'); });
+  });
+  $('calc').addEventListener('input', updateTaken);
+  $('calc').addEventListener('change', updateTaken);
   try { localStorage.removeItem('cs_plz'); } catch(e){}
   calc();
 })();
