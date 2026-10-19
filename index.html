@@ -314,7 +314,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
           <div class="inline" role="radiogroup"><label><input type="radio" name="r-an" value="Frau"> Frau</label><label><input type="radio" name="r-an" value="Herr"> Herr</label><label><input type="radio" name="r-an" value="Firma / Hausverwaltung"> Firma</label></div></div>
         <div class="field"><label for="r-name">Vor- und Nachname</label><input type="text" id="r-name" autocomplete="name"></div>
         <div class="field"><label for="r-mail">E-Mail</label><input type="email" id="r-mail" autocomplete="email"></div>
-        <div class="field"><label for="r-tel">Telefon oder WhatsApp</label><input type="tel" id="r-tel" autocomplete="tel"></div>
+        <div class="field"><label for="r-tel">Telefon oder WhatsApp (freiwillig)</label><input type="tel" id="r-tel" autocomplete="tel"></div>
         <label class="chk full"><input type="checkbox" id="r-ok"> <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verarbeitet und über den Formular-Dienst FormSubmit an CS Energy übermittelt werden (siehe <a href="https://csenergy-energieberatung.de/datenschutz/" target="_top">Datenschutzerklärung</a>).</span></label>
       </div>
       <div class="send"><button type="submit" class="btn" id="r-send">Unverbindliches Angebot anfordern</button></div>
@@ -583,7 +583,6 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
     var an = document.querySelector('input[name=r-an]:checked'); if (!an) miss.push('Anrede');
     if (!$('r-name').value.trim()) miss.push('Name');
     var mail = $('r-mail').value.trim(); if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)) miss.push('gültige E-Mail');
-    if (!$('r-tel').value.trim()) miss.push('Telefon');
     if (!$('r-ok').checked) miss.push('Einverständnis');
     if (miss.length){
       var top = miss.filter(function(x){ return /^Bitte oben/.test(x); }), rest = miss.filter(function(x){ return !/^Bitte oben/.test(x); });
@@ -614,13 +613,13 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       '16 Anrede': an.value,
       '17 Vor- und Nachname': $('r-name').value.trim(),
       '18 E-Mail': mail,
-      '19 Telefon oder WhatsApp': $('r-tel').value.trim(),
+      '19 Telefon oder WhatsApp': $('r-tel').value.trim() || '–',
       '20 Angaben aus dem Förderrechner': calcInfo
     };
-    var btn = $('r-send'); btn.disabled = true; btn.textContent = 'Wird gesendet …'; $('reqmsg').hidden = true;
+    var btn = $('r-send'); btn.disabled = true; btn.textContent = 'Wird gesendet …'; showMsg('Vielen Dank! Ihre Anfrage ist unterwegs und wird gerade zugestellt …', 'ok');
     fetch('https://formsubmit.co/ajax/csenergy@web.de', {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body: JSON.stringify(p)})
       .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ if (!r.ok || String(j.success) === 'false') throw new Error('x'); return j; }); })
-      .then(function(){ $('req').reset(); showMsg('Vielen Dank! Ihre Anfrage ist eingegangen. Sie erhalten in Kürze eine Bestätigung per E-Mail und Ihr unverbindliches Angebot in der Regel innerhalb eines Werktags.', 'ok'); btn.textContent = 'Anfrage gesendet'; })
+      .then(function(){ $('req').reset(); showMsg('Ihre Anfrage ist eingegangen. Sie erhalten in Kürze eine Bestätigung per E-Mail und Ihr unverbindliches Angebot in der Regel innerhalb eines Werktags.', 'ok'); btn.textContent = 'Anfrage gesendet ✓'; })
       .catch(function(){ btn.disabled = false; btn.textContent = 'Unverbindliches Angebot anfordern'; showMsg('Das Senden hat leider nicht geklappt. Bitte rufen Sie kurz an unter +49 151 41309314 oder schreiben Sie per WhatsApp. Ihre Angaben aus dem Rechner bleiben hier stehen.', 'err'); });
   });
   $('calc').addEventListener('input', updateTaken);
