@@ -102,8 +102,10 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
 .isfpcmp h3{margin:0 0 10px;font-size:1.05rem}
 .isfpcmp .cmp{display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:baseline;font-size:.97rem}
 .isfpcmp .cmp .v{font-weight:700;text-align:right;white-space:nowrap}
-.isfpcmp .cmp .gain{grid-column:1/-1;margin-top:6px;padding:8px 12px;border-radius:10px;background:#EAF6EC;font-weight:700}
-.isfpcmp .cmp .gain.none{background:#F3F5F8;font-weight:400}
+.isfpcmp{border-color:#F0B429;background:#FFF8E6}
+.isfpcmp.on{border-color:#2E9D4F;background:#EAF6EC}
+.isfpcmp .cmp .gain{grid-column:1/-1;margin-top:8px;padding:12px 14px;border-radius:10px;background:#2E9D4F;color:#fff;font-weight:700;font-size:1.02rem}
+.isfpcmp .cmp .gain.none{background:#F0B429;color:#2B2100;font-weight:700}
 .isfpcmp p{margin:10px 0 0;font-size:.9rem;opacity:.85}
 </style>
 </head>
@@ -222,14 +224,6 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
             <label for="c-opt">Kosten inkl. Einbau</label>
             <div class="euro"><input type="number" id="c-opt" min="0" step="250" value="3000" inputmode="decimal"></div>
           </div>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend class="sr">Sanierungsfahrplan</legend>
-        <div class="m-head">
-          <input type="checkbox" id="isfp">
-          <label for="isfp">Ich habe einen Sanierungsfahrplan (iSFP) oder lasse einen erstellen<span class="hint">Erhöht die förderfähigen Kosten für Dämmung, Fenster und Anlagentechnik und bringt 5 % Bonus auf den Anteil über 30.000 €.</span></label>
         </div>
       </fieldset>
 
@@ -429,7 +423,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
     if ($('m-opt').checked){ bafa += num('c-opt'); labels.push('Heizungsoptimierung'); }
     if (labels.length){
       costs += bafa;
-      var isfp = $('isfp').checked;
+      var isfp = false; // Hauptsumme ohne iSFP; der Vorteil mit iSFP steht im Vergleichskasten
       var capNo = capPerWE(n, 30000, 15000, 8000);
       var capIsfp = capPerWE(n, 60000, 30000, 15000);
       var calcB = function(withIsfp){
@@ -450,10 +444,12 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       add('Zuschuss Dämmung, Fenster, Technik mit iSFP', eur(rYes.z));
       add('Gesamtzuschuss ohne iSFP', eur(totalOther + rNo.z));
       add('Gesamtzuschuss mit iSFP', eur(totalOther + rYes.z));
+      var thr = Math.max(capNo, 30000);
       var gd = document.createElement('div'); gd.className = 'gain' + (gain > 0 ? '' : ' none');
-      gd.textContent = gain > 0 ? ('Ihr Vorteil mit Sanierungsfahrplan: ' + eur(gain) + ' mehr Zuschuss (höherer Höchstbetrag bis ' + eur(capIsfp) + ' und 5 % Bonus auf den Teil über ' + eur(Math.max(capNo,30000)) + ')') : ('Bei ' + eur(bafa) + ' Kosten bringt der iSFP bei der Zuschusshöhe noch keinen Vorteil. Ab ' + eur(Math.max(capNo,30000)) + ' Kosten steigt der Zuschuss mit iSFP.');
+      gd.textContent = gain > 0 ? ('Mit Sanierungsfahrplan bekommen Sie ' + eur(gain) + ' mehr Zuschuss. Es zählen Kosten bis ' + eur(capIsfp) + ' statt ' + eur(capNo) + ', dazu 5 % Bonus auf den Teil über ' + eur(thr) + '.') : ('Der Sanierungsfahrplan lohnt sich ab ' + eur(thr) + ' Kosten für Dämmung, Fenster und Technik. Ihnen fehlen noch ' + eur(thr - bafa) + ' bis dahin.');
       g.appendChild(gd);
-      var note = document.createElement('p'); note.textContent = 'Die Rechnung oben richtet sich nach Ihrer Auswahl beim Sanierungsfahrplan. Dazu kommt beim iSFP die 50-%-Förderung auf das Honorar.';
+      cmp.className = 'isfpcmp' + (gain > 0 ? ' on' : '');
+      var note = document.createElement('p'); note.textContent = 'Die Hauptsumme oben rechnet ohne Sanierungsfahrplan. Dazu kommt beim iSFP die 50-%-Förderung auf das Honorar.';
       cmp.appendChild(h); cmp.appendChild(g); cmp.appendChild(note); cmp.hidden = false;
       rows.push({name: labels.join(', '), amt: zb, meta: '15 % auf ' + eur(eligB) + (bonusBase ? ' + 5 % iSFP-Bonus auf ' + eur(bonusBase) : '') + (bafa > capMax ? ' (Höchstbetrag ' + eur(capMax) + ' erreicht)' : '') + (isfp && !bonusBase ? ' · iSFP gewählt: Der 5-%-Bonus gilt erst für Kosten über ' + eur(Math.max(capNo,30000)) + '. Bis dahin ändert sich die Förderung nicht, darüber steigen Höchstbetrag (bis ' + eur(capMax) + ') und Zuschuss.' : '')});
     }
