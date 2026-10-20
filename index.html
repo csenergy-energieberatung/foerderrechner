@@ -46,7 +46,6 @@ legend{font-family:var(--f-display);font-weight:700;font-size:17px;padding:0 6px
 .field .hint{font-size:13px;color:var(--ink-soft)}
 .m-head .hint{display:block;font-family:var(--f-body);font-weight:400;font-size:14px;color:var(--ink-soft)}
 .m-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
-.field[hidden]{display:none!important}
 .m-body[hidden]{display:none!important}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field>label,.lab{font-size:13px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-soft)}
@@ -180,19 +179,16 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
         </div>
         <div class="m-body" id="b-heiz" hidden>
           <div class="field">
-            <label for="c-heiz">Kosten inkl. Einbau</label>
+            <label for="c-heiz" id="cl-heiz">Kosten inkl. Einbau</label>
             <div class="euro"><input type="number" id="c-heiz" min="0" step="500" value="" placeholder="0" inputmode="decimal"></div>
           </div>
           <div class="field">
             <span class="lab">Wer führt aus?</span>
             <div class="inline" role="radiogroup">
               <label><input type="radio" name="w-heiz" id="w-heiz-fu" checked> Fachunternehmer</label>
-              <label><input type="radio" name="w-heiz" id="w-heiz-eig"> Teilweise Eigenleistung</label>
+              <label><input type="radio" name="w-heiz" id="w-heiz-eig"> Eigenleistung (Material selbst kaufen und einbauen)</label>
             </div>
-          </div>
-          <div class="field" id="ew-heiz" hidden>
-            <label for="e-heiz">Davon Eigenleistung (Arbeit, die Sie selbst machen)</label>
-            <div class="euro"><input type="number" id="e-heiz" min="0" step="100" value="" placeholder="0" inputmode="decimal"></div>
+            <span class="hint" id="eh-heiz" hidden>Gefördert werden nur die Materialkosten. Ihre eigene Arbeit zählt nicht. Ein Energieeffizienz-Experte oder Fachunternehmer muss die fachgerechte Durchführung bestätigen, die Rechnungen laufen auf Ihren Namen. Bei der Heizung ist Eigenleistung nur eingeschränkt möglich, das kläre ich vor dem Antrag mit Ihnen.</span>
           </div>
           <div class="field">
             <label for="alt">Welche Heizung wird ersetzt?</label>
@@ -229,19 +225,16 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
         </div>
         <div class="m-body" id="b-huelle" hidden>
           <div class="field">
-            <label for="c-huelle">Kosten inkl. Einbau</label>
+            <label for="c-huelle" id="cl-huelle">Kosten inkl. Einbau</label>
             <div class="euro"><input type="number" id="c-huelle" min="0" step="500" value="" placeholder="0" inputmode="decimal"></div>
           </div>
           <div class="field">
             <span class="lab">Wer führt aus?</span>
             <div class="inline" role="radiogroup">
               <label><input type="radio" name="w-huelle" id="w-huelle-fu" checked> Fachunternehmer</label>
-              <label><input type="radio" name="w-huelle" id="w-huelle-eig"> Teilweise Eigenleistung</label>
+              <label><input type="radio" name="w-huelle" id="w-huelle-eig"> Eigenleistung (Material selbst kaufen und einbauen)</label>
             </div>
-          </div>
-          <div class="field" id="ew-huelle" hidden>
-            <label for="e-huelle">Davon Eigenleistung (Arbeit, die Sie selbst machen)</label>
-            <div class="euro"><input type="number" id="e-huelle" min="0" step="100" value="" placeholder="0" inputmode="decimal"></div>
+            <span class="hint" id="eh-huelle" hidden>Gefördert werden nur die Materialkosten. Ihre eigene Arbeit zählt nicht. Ein Energieeffizienz-Experte oder Fachunternehmer muss die fachgerechte Durchführung bestätigen, die Rechnungen laufen auf Ihren Namen.</span>
           </div>
         </div>
       </fieldset>
@@ -254,19 +247,16 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
         </div>
         <div class="m-body" id="b-anlage" hidden>
           <div class="field">
-            <label for="c-anlage">Kosten inkl. Einbau</label>
+            <label for="c-anlage" id="cl-anlage">Kosten inkl. Einbau</label>
             <div class="euro"><input type="number" id="c-anlage" min="0" step="500" value="" placeholder="0" inputmode="decimal"></div>
           </div>
           <div class="field">
             <span class="lab">Wer führt aus?</span>
             <div class="inline" role="radiogroup">
               <label><input type="radio" name="w-anlage" id="w-anlage-fu" checked> Fachunternehmer</label>
-              <label><input type="radio" name="w-anlage" id="w-anlage-eig"> Teilweise Eigenleistung</label>
+              <label><input type="radio" name="w-anlage" id="w-anlage-eig"> Eigenleistung (Material selbst kaufen und einbauen)</label>
             </div>
-          </div>
-          <div class="field" id="ew-anlage" hidden>
-            <label for="e-anlage">Davon Eigenleistung (Arbeit, die Sie selbst machen)</label>
-            <div class="euro"><input type="number" id="e-anlage" min="0" step="100" value="" placeholder="0" inputmode="decimal"></div>
+            <span class="hint" id="eh-anlage" hidden>Gefördert werden nur die Materialkosten. Ihre eigene Arbeit zählt nicht. Ein Energieeffizienz-Experte oder Fachunternehmer muss die fachgerechte Durchführung bestätigen, die Rechnungen laufen auf Ihren Namen.</span>
           </div>
         </div>
       </fieldset>
@@ -279,19 +269,16 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
         </div>
         <div class="m-body" id="b-opt" hidden>
           <div class="field">
-            <label for="c-opt">Kosten inkl. Einbau</label>
+            <label for="c-opt" id="cl-opt">Kosten inkl. Einbau</label>
             <div class="euro"><input type="number" id="c-opt" min="0" step="250" value="" placeholder="0" inputmode="decimal"></div>
           </div>
           <div class="field">
             <span class="lab">Wer führt aus?</span>
             <div class="inline" role="radiogroup">
               <label><input type="radio" name="w-opt" id="w-opt-fu" checked> Fachunternehmer</label>
-              <label><input type="radio" name="w-opt" id="w-opt-eig"> Teilweise Eigenleistung</label>
+              <label><input type="radio" name="w-opt" id="w-opt-eig"> Eigenleistung (Material selbst kaufen und einbauen)</label>
             </div>
-          </div>
-          <div class="field" id="ew-opt" hidden>
-            <label for="e-opt">Davon Eigenleistung (Arbeit, die Sie selbst machen)</label>
-            <div class="euro"><input type="number" id="e-opt" min="0" step="100" value="" placeholder="0" inputmode="decimal"></div>
+            <span class="hint" id="eh-opt" hidden>Gefördert werden nur die Materialkosten. Ihre eigene Arbeit zählt nicht. Ein Energieeffizienz-Experte oder Fachunternehmer muss die fachgerechte Durchführung bestätigen, die Rechnungen laufen auf Ihren Namen.</span>
           </div>
         </div>
       </fieldset>
@@ -490,9 +477,12 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
     box.hidden = false;
   }
 
-  function cost(k){ return Math.max(0, num('c-'+k) - ($('w-'+k+'-eig').checked ? num('e-'+k) : 0)); }
+  function cost(k){ return num('c-'+k); }
   ['heiz','huelle','anlage','opt'].forEach(function(k){
-    ['w-'+k+'-fu','w-'+k+'-eig'].forEach(function(id){ $(id).addEventListener('change', function(){ $('ew-'+k).hidden = !$('w-'+k+'-eig').checked; calc(); }); });
+    ['w-'+k+'-fu','w-'+k+'-eig'].forEach(function(id){ $(id).addEventListener('change', function(){
+      var eig = $('w-'+k+'-eig').checked;
+      $('cl-'+k).textContent = eig ? 'Materialkosten (nur Material ist förderfähig)' : 'Kosten inkl. Einbau';
+      $('eh-'+k).hidden = !eig; calc(); }); });
   });
   function calc(){
     var n = Math.max(1, Math.round(num('we')) || 1);
@@ -588,8 +578,8 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
   function weLabel(n){ return n<=2 ? String(n) : n<=4 ? '3 bis 4' : n<=6 ? '5 bis 6' : n<=12 ? '7 bis 12' : n<=20 ? '13 bis 20' : 'mehr als 20'; }
   function picked(){
     var m = [];
-    var add = function(k, name){ if (!$('m-'+k).checked) return; var e = $('w-'+k+'-eig').checked ? num('e-'+k) : 0, c = num('c-'+k);
-      m.push(name + ' (' + eur(c) + (e > 0 ? ', davon Eigenleistung ' + eur(e) : ', Fachunternehmer') + ')'); };
+    var add = function(k, name){ if (!$('m-'+k).checked) return; var eig = $('w-'+k+'-eig').checked;
+      m.push(name + ' (' + eur(num('c-'+k)) + (eig ? ', Eigenleistung, nur Material' : ', Fachunternehmer') + ')'); };
     add('heiz','Neue Heizung'); add('huelle','Dämmung, Fenster und Türen'); add('anlage','Lüftungsanlage'); add('opt','Heizungsoptimierung');
     return m;
   }
