@@ -121,17 +121,6 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
 .reqmsg.err{background:#fde8e8;color:#7a1f1f}
 .reqmsg.ok{background:#eaf6ec;color:#17502c;font-weight:600}
 .reqform .hp{position:absolute;left:-9999px;height:0;overflow:hidden}
-.isfpcmp{margin-top:16px;border:2px solid #C9DBEC;border-radius:14px;padding:16px 18px;background:#fff}
-.isfpcmp h3{margin:0 0 10px;font-size:1.05rem}
-.isfpcmp .cmp{display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:baseline;font-size:.97rem}
-.isfpcmp .cmp .v{font-weight:700;text-align:right;white-space:nowrap}
-.isfpcmp{border-color:#F0B429;background:#FFF8E6}
-.isfpcmp.on{border-color:#2E9D4F;background:#EAF6EC}
-.isfpcmp .cmp .gain{grid-column:1/-1;margin-top:8px;padding:12px 14px;border-radius:10px;background:#2E9D4F;color:#fff;font-weight:700;font-size:1.02rem}
-.isfpcmp .cmp .gain.none{background:#F0B429;color:#2B2100;font-weight:700}
-.isfpcmp .hw{grid-column:1/-1;margin-top:8px;padding:10px 12px;border-radius:10px;background:#fff;border:2px solid #D64545;color:#7A1F1F;font-weight:700}
-.bbinfo{margin-top:14px;border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;padding:14px 16px;background:var(--surface);font-size:15px}
-.isfpcmp p{margin:10px 0 0;font-size:.9rem;opacity:.85}
 </style>
 </head>
 <body>
@@ -184,6 +173,10 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
             <div class="euro"><input type="number" id="c-heiz" min="0" step="500" value="" placeholder="0" inputmode="decimal"></div>
           </div>
           <div class="field">
+            <label for="e-heiz">Davon Eigenleistung (Arbeit, die Sie selbst machen)</label>
+            <div class="euro"><input type="number" id="e-heiz" min="0" step="100" value="" placeholder="0" inputmode="decimal"></div>
+          </div>
+          <div class="field">
             <label for="alt">Welche Heizung wird ersetzt?</label>
             <select id="alt">
               <option value="fossil" selected>Öl, Kohle, Nachtspeicher oder Gasetagenheizung</option>
@@ -221,6 +214,10 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
             <label for="c-huelle">Kosten inkl. Einbau</label>
             <div class="euro"><input type="number" id="c-huelle" min="0" step="500" value="" placeholder="0" inputmode="decimal"></div>
           </div>
+          <div class="field">
+            <label for="e-huelle">Davon Eigenleistung (Arbeit, die Sie selbst machen)</label>
+            <div class="euro"><input type="number" id="e-huelle" min="0" step="100" value="" placeholder="0" inputmode="decimal"></div>
+          </div>
         </div>
       </fieldset>
 
@@ -234,6 +231,10 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
           <div class="field">
             <label for="c-anlage">Kosten inkl. Einbau</label>
             <div class="euro"><input type="number" id="c-anlage" min="0" step="500" value="" placeholder="0" inputmode="decimal"></div>
+          </div>
+          <div class="field">
+            <label for="e-anlage">Davon Eigenleistung (Arbeit, die Sie selbst machen)</label>
+            <div class="euro"><input type="number" id="e-anlage" min="0" step="100" value="" placeholder="0" inputmode="decimal"></div>
           </div>
         </div>
       </fieldset>
@@ -249,6 +250,10 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
             <label for="c-opt">Kosten inkl. Einbau</label>
             <div class="euro"><input type="number" id="c-opt" min="0" step="250" value="" placeholder="0" inputmode="decimal"></div>
           </div>
+          <div class="field">
+            <label for="e-opt">Davon Eigenleistung (Arbeit, die Sie selbst machen)</label>
+            <div class="euro"><input type="number" id="e-opt" min="0" step="100" value="" placeholder="0" inputmode="decimal"></div>
+          </div>
         </div>
       </fieldset>
 
@@ -262,8 +267,6 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
         <div class="btns" style="margin-top:16px"><a class="btn primary" href="#anfrage">Jetzt unverbindliches Angebot anfordern</a></div>
       </div>
       <div class="rows" id="rows"></div>
-      <div class="isfpcmp" id="isfpcmp" hidden></div>
-      <div class="bbinfo" id="bbinfo" hidden><strong>Dazu kommt: Fachplanung und Baubegleitung durch mich.</strong> Darauf gibt es 50 % Zuschuss. Mein Honorar und der Zuschuss dazu stehen einzeln in Ihrem Angebot und sind in der Summe oben noch nicht enthalten.</div>
       <div class="regio" id="regio" hidden></div>
       <div class="cta">
         <h3>Sprechen wir über Ihr Vorhaben.</h3>
@@ -296,7 +299,6 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
           <select id="r-wp"><option>Weiß ich noch nicht</option><option>Luft-Wärmepumpe</option><option>Erdwärmepumpe</option><option>Pellets / Holz</option><option>Fernwärme</option></select></div>
         <div class="field full" id="r-teilwrap" hidden><span class="lab">Was genau soll an der Außenhülle gemacht werden?</span>
           <div class="sub" id="r-teil"><label><input type="checkbox" value="Dach oder oberste Geschossdecke"> Dach / oberste Geschossdecke</label><label><input type="checkbox" value="Fassade"> Fassade</label><label><input type="checkbox" value="Fenster und Türen"> Fenster und Türen</label><label><input type="checkbox" value="Kellerdecke"> Kellerdecke</label></div></div>
-        <label class="chk full" id="r-isfpwrap" hidden><input type="checkbox" id="r-isfp"> <span>Ich möchte den Sanierungsfahrplan (iSFP) im Angebot, wie im Rechner gezeigt.</span></label>
       </div>
       <h3>Ihr Vorhaben</h3>
       <div class="m-body" style="margin-top:10px">
@@ -343,7 +345,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
   var KGB = [["2026-07-21",16],["2027-02-01",12],["2027-08-01",8],["2028-02-01",4],["2028-08-01",0]];
   function byDate(tbl){ var t = new Date().toISOString().slice(0,10), v = tbl[0][1]; for (var i=0;i<tbl.length;i++){ if (t >= tbl[i][0]) v = tbl[i][1]; } return v; }
 
-  var LAST = {gain:0, bafa:0, total:0, costs:0};
+  var LAST = {total:0, costs:0};
   function einkommensBonus(ek, kind){
     // Nachweis über zu versteuerndes Einkommen; mit Kind wird das Einkommen um 10.000 € gemindert
     var table = kind ? {30:40,40:40,50:30,60:10,99:0} : {30:40,40:30,50:10,60:0,99:0};
@@ -447,6 +449,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
     box.hidden = false;
   }
 
+  function cost(k){ return Math.max(0, num('c-'+k) - num('e-'+k)); }
   function calc(){
     var n = Math.max(1, Math.round(num('we')) || 1);
     var self = $('self-yes').checked;
@@ -455,7 +458,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
 
     // Heizung (KfW)
     if ($('m-heiz').checked){
-      var c = num('c-heiz'); costs += c;
+      var c = cost('heiz'); costs += c;
       var cap1 = byDate(HEIZ_CAP);
       var elig = Math.min(c, capPerWE(n, cap1, 15000, 8000));
       var ek = $('ek').value, kind = $('kind').checked;
@@ -476,48 +479,17 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
 
     // BAFA Einzelmaßnahmen (gemeinsamer Höchstbetrag)
     var bafa = 0, labels = [];
-    if ($('m-huelle').checked){ ctx.huelle = num('c-huelle'); bafa += num('c-huelle'); labels.push('Dämmung/Fenster'); }
-    if ($('m-anlage').checked){ ctx.anlage = num('c-anlage'); bafa += num('c-anlage'); labels.push('Lüftung'); }
-    if ($('m-opt').checked){ bafa += num('c-opt'); labels.push('Heizungsoptimierung'); }
+    if ($('m-huelle').checked){ ctx.huelle = cost('huelle'); bafa += cost('huelle'); labels.push('Dämmung/Fenster'); }
+    if ($('m-anlage').checked){ ctx.anlage = cost('anlage'); bafa += cost('anlage'); labels.push('Lüftung'); }
+    if ($('m-opt').checked){ bafa += cost('opt'); labels.push('Heizungsoptimierung'); }
     if (labels.length){
       costs += bafa;
-      var isfp = false; // Hauptsumme ohne iSFP; der Vorteil mit iSFP steht im Vergleichskasten
       var capNo = capPerWE(n, 30000, 15000, 8000);
-      var capIsfp = capPerWE(n, 60000, 30000, 15000);
-      var calcB = function(withIsfp){
-        var cm = withIsfp ? capIsfp : capNo, el = Math.min(bafa, cm);
-        var bb = withIsfp ? Math.max(0, el - Math.max(capNo, 30000)) : 0;
-        return {cap: cm, elig: el, bonusBase: bb, z: el * 0.15 + bb * 0.05};
-      };
-      var rNo = calcB(false), rYes = calcB(true), rSel = isfp ? rYes : rNo;
-      var capMax = rSel.cap, eligB = rSel.elig, bonusBase = rSel.bonusBase, zb = rSel.z;
-      var totalOther = total;
+      var capMax = capNo, eligB = Math.min(bafa, capNo), zb = eligB * 0.15;
       total += zb;
-      var cmp = $('isfpcmp'), gain = rYes.z - rNo.z; LAST.gain = gain; LAST.bafa = bafa;
-      cmp.innerHTML = '';
-      var h = document.createElement('h3'); h.textContent = 'Mit und ohne Sanierungsfahrplan (iSFP)';
-      var g = document.createElement('div'); g.className = 'cmp';
-      var add = function(l, v, cls){ var a = document.createElement('span'); a.textContent = l; var b = document.createElement('span'); b.className = 'v'; b.textContent = v; g.appendChild(a); g.appendChild(b); };
-      add('Kosten, die für die Grenze zählen (ohne neue Heizung)', eur(bafa));
-      add('Zuschuss Dämmung, Fenster, Technik ohne iSFP', eur(rNo.z));
-      add('Zuschuss Dämmung, Fenster, Technik mit iSFP', eur(rYes.z));
-      add('Gesamtzuschuss ohne iSFP', eur(totalOther + rNo.z));
-      add('Gesamtzuschuss mit iSFP', eur(totalOther + rYes.z));
-      var thr = Math.max(capNo, 30000);
-      var gd = document.createElement('div'); gd.className = 'gain' + (gain > 0 ? '' : ' none');
-      gd.textContent = gain > 0 ? ('Mit Sanierungsfahrplan bekommen Sie ' + eur(gain) + ' mehr Zuschuss. Es zählen Kosten bis ' + eur(capIsfp) + ' statt ' + eur(capNo) + ', dazu 5 % Bonus auf den Teil über ' + eur(thr) + '.') : ('Der Sanierungsfahrplan lohnt sich ab ' + eur(thr) + ' Kosten für Dämmung, Fenster und Technik. Ihnen fehlen noch ' + eur(thr - bafa) + ' bis dahin.');
-      g.appendChild(gd);
-      cmp.className = 'isfpcmp' + (gain > 0 ? ' on' : '');
-      var note = document.createElement('p'); note.textContent = 'Wichtig: Die Grenze von ' + eur(thr) + ' gilt nur für Dämmung, Fenster, Türen, Lüftung und Heizungsoptimierung (BAFA). Die Kosten einer neuen Heizung (KfW) zählen nicht mit, auch wenn Sie insgesamt über ' + eur(thr) + ' liegen. Die Hauptsumme oben rechnet ohne Sanierungsfahrplan. Dazu kommt beim iSFP die 50-%-Förderung auf das Honorar.';
-      if ($('m-heiz').checked){ var hw = document.createElement('div'); hw.className = 'hw'; hw.textContent = 'Achtung: Ihre neue Heizung (' + eur(num('c-heiz')) + ') zählt hier nicht mit. Maßgeblich sind nur die ' + eur(bafa) + ' für Dämmung, Fenster und Technik.'; g.appendChild(hw); }
-      cmp.appendChild(h); cmp.appendChild(g); cmp.appendChild(note); cmp.hidden = false;
-      rows.push({name: labels.join(', '), amt: zb, meta: '15 % auf ' + eur(eligB) + (bonusBase ? ' + 5 % iSFP-Bonus auf ' + eur(bonusBase) : '') + (bafa > capMax ? ' (Höchstbetrag ' + eur(capMax) + ' erreicht)' : '') + (isfp && !bonusBase ? ' · iSFP gewählt: Der 5-%-Bonus gilt erst für Kosten über ' + eur(Math.max(capNo,30000)) + '. Bis dahin ändert sich die Förderung nicht, darüber steigen Höchstbetrag (bis ' + eur(capMax) + ') und Zuschuss.' : '')});
+      rows.push({name: labels.join(', '), amt: zb, meta: '15 % auf ' + eur(eligB) + (bafa > capMax ? ' (Höchstbetrag ' + eur(capMax) + ' erreicht)' : '') });
     }
 
-    // Fachplanung und Baubegleitung: ab zwei Maßnahmen Hinweis, Honorar und Zuschuss stehen im Angebot
-    var nMass = ($('m-heiz').checked?1:0) + ($('m-huelle').checked?1:0) + ($('m-anlage').checked?1:0) + ($('m-opt').checked?1:0);
-    var bbi = $('bbinfo'); bbi.hidden = nMass < 2;
-    if (!labels.length){ $('isfpcmp').hidden = true; LAST.gain = 0; LAST.bafa = 0; }
     renderRegio(ctx);
     LAST.total = total; LAST.costs = costs; updateTaken();
     $('sum').textContent = eur(total);
@@ -544,10 +516,10 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
   function weLabel(n){ return n<=2 ? String(n) : n<=4 ? '3 bis 4' : n<=6 ? '5 bis 6' : n<=12 ? '7 bis 12' : n<=20 ? '13 bis 20' : 'mehr als 20'; }
   function picked(){
     var m = [];
-    if ($('m-heiz').checked) m.push('Neue Heizung (' + eur(num('c-heiz')) + ')');
-    if ($('m-huelle').checked) m.push('Dämmung, Fenster und Türen (' + eur(num('c-huelle')) + ')');
-    if ($('m-anlage').checked) m.push('Lüftungsanlage (' + eur(num('c-anlage')) + ')');
-    if ($('m-opt').checked) m.push('Heizungsoptimierung (' + eur(num('c-opt')) + ')');
+    if ($('m-heiz').checked) m.push('Neue Heizung (' + eur(cost('heiz')) + ')');
+    if ($('m-huelle').checked) m.push('Dämmung, Fenster und Türen (' + eur(cost('huelle')) + ')');
+    if ($('m-anlage').checked) m.push('Lüftungsanlage (' + eur(cost('anlage')) + ')');
+    if ($('m-opt').checked) m.push('Heizungsoptimierung (' + eur(cost('opt')) + ')');
     return m;
   }
   function updateTaken(){
@@ -559,11 +531,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
     box.innerHTML = '<strong>Aus dem Rechner übernommen:</strong><ul>' + li.join('') + '</ul>';
     var heiz = $('m-heiz').checked, huelle = $('m-huelle').checked;
     $('r-heizwrap').hidden = heiz; $('r-wpwrap').hidden = !heiz; $('r-teilwrap').hidden = !huelle;
-    var showIsfp = LAST.gain > 0; $('r-isfpwrap').hidden = !showIsfp;
-    if (showIsfp && !$('r-isfp').dataset.touched) $('r-isfp').checked = true;
-    if (!showIsfp && !$('r-isfp').dataset.touched) $('r-isfp').checked = false;
   }
-  $('r-isfp').addEventListener('change', function(){ this.dataset.touched = '1'; });
 
   function showMsg(txt, cls){ var b = $('reqmsg'); b.className = 'reqmsg ' + cls; b.textContent = txt; b.hidden = false; b.scrollIntoView({block:'nearest'}); }
   $('req').addEventListener('submit', function(e){
@@ -591,8 +559,8 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
     }
     var aussen = [].slice.call(document.querySelectorAll('#r-teil input:checked')).map(function(c){return c.value;});
     var tech = []; if (heiz) tech.push('Neue Heizung oder Wärmepumpe'); if ($('m-opt').checked) tech.push('Bestehende Heizung verbessern'); if ($('m-anlage').checked) tech.push('Lüftungsanlage');
-    var andere = []; if (!$('r-isfpwrap').hidden && $('r-isfp').checked) andere.push('Sanierungsfahrplan (iSFP), empfohlen');
-    var calcInfo = m.join('; ') + (LAST.costs ? ' | Geschätzter Zuschuss laut Rechner: ' + eur(LAST.total) : '') + (heiz ? ' | Ersetzt wird: ' + selTxt('alt') + ' | Haushaltseinkommen: ' + selTxt('ek') + (($('kind').checked) ? ' | Kind unter 18 im Haushalt' : '') : '') + (LAST.gain > 0 ? ' | iSFP-Vorteil laut Rechner: ' + eur(LAST.gain) : '');
+    var andere = [];
+    var calcInfo = m.join('; ') + (LAST.costs ? ' | Geschätzter Zuschuss laut Rechner: ' + eur(LAST.total) : '') + (heiz ? ' | Ersetzt wird: ' + selTxt('alt') + ' | Haushaltseinkommen: ' + selTxt('ek') + (($('kind').checked) ? ' | Kind unter 18 im Haushalt' : '') : '');
     var p = {
       '_subject': 'Angebotsanfrage über die Website', '_template': 'table', '_captcha': 'false', '_replyto': mail,
       '_autoresponse': 'Guten Tag ' + $('r-name').value + ', vielen Dank für Ihre Anfrage. Sie ist bei mir eingegangen. Ich melde mich in Kürze persönlich bei Ihnen. Sie müssen nichts unterschreiben und nichts weiter tun. Viele Grüße, Shahin Aslankilic, CS Energy Energieberatung, Tel. +49 151 41309314',
