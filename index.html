@@ -516,10 +516,9 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
   function weLabel(n){ return n<=2 ? String(n) : n<=4 ? '3 bis 4' : n<=6 ? '5 bis 6' : n<=12 ? '7 bis 12' : n<=20 ? '13 bis 20' : 'mehr als 20'; }
   function picked(){
     var m = [];
-    if ($('m-heiz').checked) m.push('Neue Heizung (' + eur(cost('heiz')) + ')');
-    if ($('m-huelle').checked) m.push('Dämmung, Fenster und Türen (' + eur(cost('huelle')) + ')');
-    if ($('m-anlage').checked) m.push('Lüftungsanlage (' + eur(cost('anlage')) + ')');
-    if ($('m-opt').checked) m.push('Heizungsoptimierung (' + eur(cost('opt')) + ')');
+    var add = function(k, name){ if (!$('m-'+k).checked) return; var e = num('e-'+k), c = num('c-'+k);
+      m.push(name + ' (' + eur(c) + (e > 0 ? ', davon Eigenleistung ' + eur(e) : '') + ')'); };
+    add('heiz','Neue Heizung'); add('huelle','Dämmung, Fenster und Türen'); add('anlage','Lüftungsanlage'); add('opt','Heizungsoptimierung');
     return m;
   }
   function updateTaken(){
