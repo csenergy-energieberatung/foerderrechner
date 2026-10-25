@@ -81,7 +81,7 @@ f.addEventListener('submit',e=>{e.preventDefault();
  else if(stand==='unklar')h+='<div class="warn"><b>Wichtig:</b> Der Kreditantrag muss gestellt sein, bevor Sie Liefer- oder Leistungsverträge unterschreiben. Unterschreiben Sie bitte nichts, bevor wir gesprochen haben.</div>';
  else if(stand==='frei')h+='<div class="warn"><b>Gut so:</b> Unterschreiben Sie Bau- und Lieferverträge erst, wenn der Kreditantrag gestellt ist.</div>';
  const msg='Hallo Herr Aslankilic, ich habe den Neubau-Check gemacht. Ergebnis: '+progs+'. Nutzung: '+(nutz==='selbst'?'Selbstnutzung':'Vermietung/Andere')+(nutz==='selbst'?', Kinder: '+k+', Einkommen: '+(eink==='999'?'über 110.000 €':eink==='x'?'unbekannt':'bis '+eink+'.000 €')+(eig?', bereits Wohneigentum':''):'')+', Stand: '+({frei:'nichts unterschrieben',antrag:'Antrag gestellt',vertrag:'Vertrag unterschrieben',unklar:'unklar'})[stand]+'. Bitte um ein individuelles Angebot.';
- h+='<div class="row"><a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/'+PHONE+'?text='+encodeURIComponent(msg)+'">Per WhatsApp anfragen</a><a class="btn ghost" href="https://csenergy-energieberatung.de/angebot-anfordern/">Angebot anfordern</a></div>';
+ h+='<div class="row"><a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/'+PHONE+'?text='+encodeURIComponent(msg)+'">Per WhatsApp anfragen</a><a class="btn ghost" href="https://csenergy-energieberatung.de/neubau-angebot-anfordern/">Neubau-Angebot anfordern</a></div>';
  res.innerHTML=h;res.style.display='block';res.scrollIntoView({behavior:'smooth'});
 });
 </script></body></html>
