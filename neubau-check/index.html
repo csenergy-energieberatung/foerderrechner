@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Neubau-Check KfW 297, 298, 300 | CS Energy</title><meta name="description" content="Neubau-Check: Welches KfW-Programm (297, 298 oder 300) kommt für Ihren Neubau in Frage? Unverbindliche Orientierung von CS Energy."><meta name="robots" content="noindex">
+<style>
+:root{--blue:#0072bc;--bg:#f3f7fb;--line:#d6e2ee;--ink:#0a3a66}
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.5}
+.card{max-width:640px;margin:24px auto;background:#fff;border-radius:14px;padding:28px;box-shadow:0 2px 14px rgba(20,38,58,.08)}
+h1{font-size:1.5rem;margin:0 0 4px}.sub{color:#456;margin:0 0 20px}
+fieldset{border:0;padding:0;margin:0 0 18px}legend{font-weight:600;margin-bottom:8px}
+label.opt{display:block;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:6px;cursor:pointer}
+label.opt:has(input:checked){border-color:var(--blue);background:var(--bg)}
+input[type=radio]{margin-right:8px}
+button,.btn{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:12px 20px;font-size:1rem;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.wa{background:#25a244}.btn.ghost{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+#res{display:none;margin-top:24px;border-top:2px solid var(--line);padding-top:20px}
+.badge{display:inline-block;background:var(--blue);color:#fff;border-radius:99px;padding:4px 12px;font-weight:600;margin:0 6px 6px 0}
+.warn{background:#fff3cd;border-radius:8px;padding:10px 12px;margin:10px 0}
+.small{font-size:.82rem;color:#456}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+</style></head><body>
+<div class="card"><img src="../cs-energy-icon.png" alt="CS Energy" style="height:48px;margin-bottom:12px">
+<h1>Neubau-Check</h1>
+<p class="sub">Vier Fragen, dann sehen Sie, welches KfW-Programm für Ihren Neubau in Frage kommt.</p>
+<form id="f">
+<fieldset><legend>1. Wer nutzt das Gebäude?</legend>
+<label class="opt"><input type="radio" name="nutz" value="selbst" required>Ich ziehe selbst ein</label>
+<label class="opt"><input type="radio" name="nutz" value="andere">Vermietung, Eigentümergemeinschaft oder Unternehmen</label></fieldset>
+<fieldset id="fam"><legend>2. Kinder unter 18 Jahren im Haushalt?</legend>
+<label class="opt"><input type="radio" name="kinder" value="0" required>Keine</label>
+<label class="opt"><input type="radio" name="kinder" value="1">1 Kind</label>
+<label class="opt"><input type="radio" name="kinder" value="2">2 Kinder</label>
+<label class="opt"><input type="radio" name="kinder" value="3">3 Kinder oder mehr</label></fieldset>
+<fieldset id="eink"><legend>3. Zu versteuerndes Haushaltseinkommen (Jahr)</legend>
+<label class="opt"><input type="radio" name="eink" value="80" required>bis 80.000 €</label>
+<label class="opt"><input type="radio" name="eink" value="90">80.001 bis 90.000 €</label>
+<label class="opt"><input type="radio" name="eink" value="100">90.001 bis 100.000 €</label>
+<label class="opt"><input type="radio" name="eink" value="110">100.001 bis 110.000 €</label>
+<label class="opt"><input type="radio" name="eink" value="999">über 110.000 €</label>
+<label class="opt"><input type="radio" name="eink" value="x">weiß ich nicht</label>
+<label class="opt"><input type="checkbox" id="eigentum" style="margin-right:8px">Ich oder mein Partner besitzen bereits Wohneigentum</label></fieldset>
+<fieldset><legend>4. Wie weit sind Sie?</legend>
+<label class="opt"><input type="radio" name="stand" value="frei" required>Noch nichts unterschrieben</label>
+<label class="opt"><input type="radio" name="stand" value="antrag">Kreditantrag ist bei der KfW eingegangen</label>
+<label class="opt"><input type="radio" name="stand" value="vertrag">Bau- oder Liefervertrag ist unterschrieben</label>
+<label class="opt"><input type="radio" name="stand" value="unklar">Weiß ich nicht genau</label></fieldset>
+<button type="submit">Ergebnis anzeigen</button>
+</form>
+<div id="res" aria-live="polite"></div>
+<p class="small">Unverbindliche Orientierung auf Basis der KfW-Merkblätter (297/298: 07/2026, 300: 12/2025), keine Förderzusage. Diese kann nur die KfW erteilen. Verbindlich sind die aktuellen Richtlinien auf kfw.de.</p>
+</div>
+<script>
+const f=document.getElementById('f'),res=document.getElementById('res');
+const PHONE='4915141309314';
+function toggle(){const selbst=f.nutz.value==='selbst';
+ document.getElementById('fam').style.display=selbst?'':'none';
+ document.getElementById('eink').style.display=selbst?'':'none';
+ f.kinder.forEach&&0;}
+f.addEventListener('change',()=>{const selbst=f.nutz.value!=='andere';
+ for(const id of['fam','eink']){const s=document.getElementById(id);s.style.display=selbst?'':'none';
+  s.querySelectorAll('input[type=radio]').forEach(r=>r.required=selbst);}});
+f.addEventListener('submit',e=>{e.preventDefault();
+ const nutz=f.nutz.value,stand=f.stand.value;
+ let k=parseInt(f.kinder.value||0),eink=f.eink.value,eig=document.getElementById('eigentum').checked;
+ let badges=[],txt=[],progs='';
+ if(nutz==='andere'){badges=['KfW 298'];progs='KfW 298';
+  txt.push('Für Vermieter, Eigentümergemeinschaften und Unternehmen kommt KfW 298 (Klimafreundlicher Neubau) in Frage. Kredit bis zu 100.000 € je Wohneinheit, Effizienzhaus 40 mit Ökobilanz.');}
+ else{
+  const grenze=k>=1?(90+10*(k-1)):0;
+  let ok300=k>=1&&!eig&&eink!=='x'&&parseInt(eink)<=grenze&&eink!=='999';
+  let unsicher=k>=1&&!eig&&eink==='x';
+  if(ok300){badges=['KfW 300','alternativ KfW 297'];progs='KfW 300 oder 297';
+   txt.push('Nach Ihren Angaben kann KfW 300 (Wohneigentum für Familien) passen, mit je nach Kinderzahl 170.000 bis 270.000 € Kredit. KfW 297 ist die Alternative, beide gehen für dieselbe Wohneinheit nicht zusammen. Welches besser ist, rechne ich mit Ihnen durch.');}
+  else if(unsicher){badges=['KfW 297','KfW 300 prüfen'];progs='KfW 297, KfW 300 prüfen';
+   txt.push('Ob KfW 300 passt, hängt von Ihrem Einkommen ab. Die Grenze liegt bei '+grenze+'.000 € zu versteuerndem Haushaltseinkommen für Ihre Kinderzahl. Bis dahin ist KfW 297 (bis 100.000 €) die sichere Option.');}
+  else{badges=['KfW 297'];progs='KfW 297';
+   let grund=k===0?'KfW 300 setzt mindestens ein Kind unter 18 Jahren voraus.':eig?'KfW 300 setzt voraus, dass noch kein Wohneigentum vorhanden ist.':'Das Einkommen liegt über der Grenze für KfW 300 ('+grenze+'.000 €).';
+   txt.push('Für Ihre Selbstnutzung kommt KfW 297 (Klimafreundlicher Neubau) in Frage. Kredit bis zu 100.000 € je Wohneinheit. '+grund);}
+ }
+ let h='<h2>Ihr Ergebnis</h2><p>'+badges.map(b=>'<span class="badge">'+b+'</span>').join('')+'</p>'+txt.map(t=>'<p>'+t+'</p>').join('');
+ h+='<p>Für alle Programme gilt: Effizienzhaus 40, keine Öl-, Gas- oder Biomasseheizung, Bestätigung eines Energieeffizienz-Experten zum Antrag.</p>';
+ if(stand==='vertrag')h+='<div class="warn"><b>Wichtig:</b> Wurde der Vertrag ohne aufschiebende Bedingung vor dem Antrag unterschrieben, kann die Förderung entfallen. Bitte sprechen Sie mich schnell an, ich prüfe Ihren Fall.</div>';
+ else if(stand==='unklar')h+='<div class="warn"><b>Wichtig:</b> Der Kreditantrag muss gestellt sein, bevor Sie Liefer- oder Leistungsverträge unterschreiben. Unterschreiben Sie bitte nichts, bevor wir gesprochen haben.</div>';
+ else if(stand==='frei')h+='<div class="warn"><b>Gut so:</b> Unterschreiben Sie Bau- und Lieferverträge erst, wenn der Kreditantrag gestellt ist.</div>';
+ const msg='Hallo Herr Aslankilic, ich habe den Neubau-Check gemacht. Ergebnis: '+progs+'. Nutzung: '+(nutz==='selbst'?'Selbstnutzung':'Vermietung/Andere')+(nutz==='selbst'?', Kinder: '+k+', Einkommen: '+(eink==='999'?'über 110.000 €':eink==='x'?'unbekannt':'bis '+eink+'.000 €')+(eig?', bereits Wohneigentum':''):'')+', Stand: '+({frei:'nichts unterschrieben',antrag:'Antrag gestellt',vertrag:'Vertrag unterschrieben',unklar:'unklar'})[stand]+'. Bitte um ein individuelles Angebot.';
+ h+='<div class="row"><a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/'+PHONE+'?text='+encodeURIComponent(msg)+'">Per WhatsApp anfragen</a><a class="btn ghost" href="https://csenergy-energieberatung.de/angebot-anfordern/">Angebot anfordern</a></div>';
+ res.innerHTML=h;res.style.display='block';res.scrollIntoView({behavior:'smooth'});
+});
+</script></body></html>
