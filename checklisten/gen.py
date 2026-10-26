@@ -1,12 +1,12 @@
 import subprocess,html
 CSS="""@page{size:A4;margin:15mm 16mm 13mm}
-body{font-family:Inter,'Segoe UI',Arial,sans-serif;color:#1c2a3a;font-size:9.4pt;line-height:1.28}
+body{font-family:Inter,'Segoe UI',Arial,sans-serif;color:#1c2a3a;font-size:8.7pt;line-height:1.24}
 img{height:15mm;display:block}
 h1{color:#0A3A66;font-size:16.5pt;margin:4mm 0 .5mm}
 .sub{color:#0072BC;margin-bottom:2mm;font-weight:600}
 h2{color:#0A3A66;font-size:10.8pt;border-bottom:2px solid #0072BC;padding-bottom:.8mm;margin:3.6mm 0 1.4mm}
 ul{list-style:none;padding:0;margin:0}
-li{padding-left:6.5mm;position:relative;margin:.8mm 0}
+li{padding-left:6.5mm;position:relative;margin:.6mm 0}
 li:before{content:"";position:absolute;left:0;top:.45mm;width:3.3mm;height:3.3mm;border:1.4px solid #0A3A66;border-radius:1px}
 .n{background:#EEF5FB;border-left:4px solid #0072BC;padding:2mm 3mm;margin-top:3mm;font-size:9pt}
 .w{background:#FFF4E5;border-left:4px solid #E08A00;padding:2mm 3mm;margin-top:3mm;font-size:9pt}
@@ -98,4 +98,13 @@ VB_N,"<b>Fristen:</b> Kreditabruf 12 Monate nach Zusage (verlängerbar um bis zu
  "Alle Unterlagen als PDF, höchstens 10 MB je Datei"])],
 "Der Antrag muss <b>vor</b> Vorhabenbeginn gestellt sein. Ein Vertrag ohne Förderbedingung oder der Baustart davor schließt die Förderung aus.","<b>Fristen:</b> Bewilligungszeitraum 36 Monate ab Zusage. Nachweise innerhalb von 6 Monaten nach der letzten Rechnung, sonst verfällt der Zuschuss. 10 Jahre Aufbewahrung und Nutzung. Förderhöhe und Boni hängen vom Einzelfall ab, sie rechnen wir im Angebot.","September 2026 (Merkblatt 458)"),
 ]
-for p in pages: page(*p)
+
+COMMON=[("Schritt 1 · Beratung und Beauftragung",["Auftrag bzw. Beratungsvertrag mit CS Energy (Beauftragungsunterlagen 10 Jahre aufbewahren)","Vollmacht, falls CS Energy Anträge oder Bestätigungen für Sie einreicht","Gewünschte Maßnahmen und Budget kurz notiert"])]
+EXTRA={
+"Checkliste-KfW-297-298-Klimafreundlicher-Neubau":[("Weitere Dokumente je Schritt",["<b>Beratung:</b> Auftrag an CS Energy, Vollmacht, Baugenehmigung bzw. Bauantrag, Lageplan, Bauzeichnungen (Grundrisse, Schnitte, Ansichten)","<b>Antrag:</b> Selbstauskunft und Einkommensnachweise für die Bank (je nach Bank), Kaufvertrag oder Bauvertrag mit Förderklausel, Baubeschreibung","<b>Umsetzung:</b> Angebote und Aufträge der Gewerke, Produkt- und Datenblätter der Bauteile (Dämmung, Fenster, Heizung, Lüftung), Fotodokumentation der Bauphasen","<b>Nachweis:</b> Abnahmeprotokolle, Inbetriebnahmeprotokoll der Heizung, Schlussrechnungen mit Kontoauszügen, Einzugsbestätigung"])],
+"Checkliste-KfW-300-Wohneigentum-fuer-Familien":[("Weitere Dokumente je Schritt",["<b>Beratung:</b> Auftrag an CS Energy, Vollmacht, Baugenehmigung bzw. Bauantrag, Lageplan, Bauzeichnungen","<b>Antrag:</b> Selbstauskunft und Einkommensnachweise für die Bank (je nach Bank), Kauf- oder Bauvertrag mit Förderklausel, Nachweis, dass kein weiteres Wohneigentum vorhanden ist (z. B. Grundbuchauszüge)","<b>Umsetzung:</b> Angebote und Aufträge der Gewerke, Produkt- und Datenblätter, Fotodokumentation","<b>Nachweis:</b> Abnahmeprotokolle, Schlussrechnungen mit Kontoauszügen, Meldebestätigung nach Einzug, Grundbuchauszug"])],
+"Checkliste-KfW-261-Sanierung-Effizienzhaus":[("Weitere Dokumente je Schritt",["<b>Beratung:</b> Auftrag an CS Energy, Vollmacht, Energieausweis oder Verbrauchsabrechnungen der letzten Jahre, Bestandspläne, Fotos des Gebäudes, Schornsteinfeger-Protokoll","<b>Antrag:</b> Selbstauskunft und Einkommensnachweise für die Bank (je nach Bank), Angebote der Fachfirmen (mit Förderklausel), Sanierungskonzept bzw. iSFP","<b>Umsetzung:</b> Aufträge und Bauzeitenplan, Produkt- und Datenblätter (Dämmstoffe, Fenster, Heizung, Lüftung), Fotodokumentation vor, während und nach der Sanierung","<b>Nachweis:</b> Unternehmererklärungen bzw. Protokolle der Fachfirmen (z. B. Luftdichtheit, hydraulischer Abgleich), Schlussrechnungen mit Kontoauszügen, Abnahmeprotokolle"])],
+"Checkliste-KfW-458-Heizungsfoerderung":[("Weitere Dokumente je Schritt",["<b>Beratung:</b> Auftrag an CS Energy, Vollmacht für die Antragstellung im Portal, Fotos der alten Heizung und des Heizraums, Typenschild, Verbrauchsabrechnungen, Schornsteinfeger-Protokoll","<b>Antrag:</b> Angebot mit Gerätetyp und Datenblatt (förderfähige Anlage), Heizlastberechnung bzw. Auslegung, Planung der Optimierung des Heizungsverteilsystems","<b>Umsetzung:</b> Auftragsbestätigung mit Förderklausel, Fotos vom Einbau, Nachweis der Demontage bzw. Entsorgung der Altanlage","<b>Nachweis:</b> Inbetriebnahmeprotokoll, Protokoll hydraulischer Abgleich, Schlussrechnung mit Kontoauszug, Typenschild-Foto der neuen Anlage"])],
+}
+for p in pages: page(p[0],p[1],p[2],p[3]+EXTRA[p[0]],p[4],p[5],p[6])
+
