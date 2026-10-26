@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Förderrechner | CS Energy Energieberatung</title>
-<meta name="description" content="Förderrechner für Heizung, Dämmung und Fenster: Schätzen Sie Ihren Zuschuss nach BAFA und KfW in zwei Minuten. Mit Landes- und Kommunalprogrammen für Hamburg, Niedersachsen, NRW und Bremen. CS Energy, Energieberatung bundesweit.">
+<title>Sanierungsrechner | CS Energy Energieberatung</title>
+<meta name="description" content="Sanierungsrechner für Heizung, Dämmung und Fenster: Schätzen Sie Ihren Zuschuss nach BAFA und KfW in zwei Minuten. Mit Landes- und Kommunalprogrammen für Hamburg, Niedersachsen, NRW und Bremen. CS Energy, Energieberatung bundesweit.">
 <style>
 /* Layout: Rechner links (Eingaben in Karten je Maßnahme), Ergebnis rechts als ruhige, mitlaufende Spalte; am Handy Ergebnis unten */
 :root{
@@ -648,7 +648,7 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:18px;hei
       '17 Vor- und Nachname': $('r-name').value.trim(),
       '18 E-Mail': mail,
       '19 Telefon oder WhatsApp': $('r-tel').value.trim() || '–',
-      '20 Angaben aus dem Förderrechner': calcInfo
+      '20 Angaben aus dem Sanierungsrechner': calcInfo
     };
     var btn = $('r-send'); btn.disabled = true; btn.textContent = 'Wird gesendet …'; showMsg('Vielen Dank! Ihre Anfrage ist unterwegs und wird gerade zugestellt …', 'ok');
     fetch('https://formsubmit.co/ajax/csenergy@web.de', {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body: JSON.stringify(p)})
